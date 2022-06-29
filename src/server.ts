@@ -1,15 +1,31 @@
 import { Request, Response } from "express";
+import express from "express";
+import dotenv from "dotenv";
+import http from "http";
+import https from "https";
+import fs from "fs";
 
-const express = require("express");
-const dotenv = require("dotenv").config();
+const options = {
+  key: fs.readFileSync("key.pem"),
+  cert: fs.readFileSync("cert.pem"),
+};
+dotenv.config();
 
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 const PORT = process.env.PORT || 5000;
+
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(options, app);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+httpServer.listen(8080, () => {
+  console.log("HTTP Server is running on port 8080");
+});
+httpsServer.listen(8000, () => {
+  console.log(`HTTPS Server is running on port 8000`);
 });
