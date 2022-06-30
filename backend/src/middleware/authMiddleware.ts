@@ -15,21 +15,20 @@ const protect = asyncHandler(
 
         const decode = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
 
-        if (decode.exp && Date.now() >= decode.exp * 1000) {
-          res.status(401);
-          throw new Error("Token is expired");
-        }
-
-        req.user = await User.findById(decode.id);
+        req.user = await User.findById(decode.id).select("-hash");
         next();
       } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+          res.status(401);
+          throw new Error("Token wygasł");
+        }
         res.status(401);
-        throw new Error("Unauthorized");
+        throw new Error("Brak uprawnień");
       }
     }
     if (!token) {
       res.status(401);
-      throw new Error("Not authorized, no token");
+      throw new Error("Brak tokenu");
     }
   }
 );

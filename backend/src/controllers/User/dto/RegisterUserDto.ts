@@ -5,5 +5,5 @@ export interface RegisterUserDto {
   password: string;
   hasFamily: boolean;
   role: string;
-  familyId: string | null;
+  memberOfFamily: string | null;
 }

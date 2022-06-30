@@ -4,6 +4,6 @@ export interface GetUserDto {
   lastName: string;
   email: string;
   role: string;
-  familyId?: string;
+  memberOfFamily?: string;
   token?: string;
 }

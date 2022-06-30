@@ -18,7 +18,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
     password,
     hasFamily,
     role,
-    familyId,
+    memberOfFamily,
   }: RegisterUserDto = req.body;
 
   if (!firstName || !lastName || !email || !password) {
@@ -101,7 +101,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
-      familyId: family._id.toString(),
+      memberOfFamily: family._id.toString(),
       token: generateToken(user._id.toString()),
     };
 
@@ -109,7 +109,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
   }
 
   if (hasFamily) {
-    const family = await Family.findById(familyId);
+    const family = await Family.findById(memberOfFamily);
 
     if (!family) {
       res.status(400);
@@ -147,7 +147,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
-      familyId: family._id.toString(),
+      memberOfFamily: family._id.toString(),
       token: generateToken(user._id.toString()),
     };
 
@@ -188,7 +188,7 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
         lastName: user.lastName,
         email: user.email,
         role: RoleEnum.user,
-        familyId: user.memberOfFamily?.toString(),
+        memberOfFamily: user.memberOfFamily?.toString(),
         token: generateToken(user._id.toString()),
       };
       res.status(200).json(userDto);
@@ -207,7 +207,7 @@ const getUser = asyncHandelr(async (req: Request, res: Response) => {
       lastName: req.user.lastName,
       email: req.user.email,
       role: req.user.role,
-      familyId: req.user.memberOfFamily?.toString(),
+      memberOfFamily: req.user.memberOfFamily?.toString(),
     };
     res.status(200).json(userDto);
   }

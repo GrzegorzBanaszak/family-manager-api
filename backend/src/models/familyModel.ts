@@ -9,6 +9,7 @@ const familySchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
-});
+  transactions:[{value: Number, date: Date, user: String}],
+}, { timestamps: true });
 
 export default mongoose.model("Family", familySchema);

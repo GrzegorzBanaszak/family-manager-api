@@ -10,11 +10,16 @@ import errorHandler from "./middleware/errorMiddleware";
 
 //Import routes
 import userRoutes from "./routes/userRoutes";
+import familyRoutes from "./routes/familyRoutes";
 
 dotenv.config();
-const PORT = process.env.PORT || 5000;
 
+const PORT_HTTP = process.env.PORT_HTTP || 5000;
+const PORT_HTTPS = process.env.PORT_HTTPS || 8000;
+
+//Start db connection
 connentDb();
+
 const options = {
   key: fs.readFileSync("key.pem"),
   cert: fs.readFileSync("cert.pem"),
@@ -24,18 +29,20 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+
+//Apllying all routes
 app.use("/api/user", userRoutes);
+app.use("/api/family", familyRoutes);
 app.use(errorHandler);
+
+//Create http and https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(options, app);
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello World!");
+//Statrt http servers
+httpServer.listen(PORT_HTTP, () => {
+  console.log(`HTTP Server is running on port ${PORT_HTTP}`);
 });
-
-httpServer.listen(PORT, () => {
-  console.log("HTTP Server is running on port " + PORT);
-});
-httpsServer.listen(8000, () => {
-  console.log(`HTTPS Server is running on port 8000`);
+httpsServer.listen(PORT_HTTPS, () => {
+  console.log(`HTTPS Server is running on port ${PORT_HTTPS}`);
 });
