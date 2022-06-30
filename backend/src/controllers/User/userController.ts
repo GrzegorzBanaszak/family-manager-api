@@ -60,98 +60,98 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
     };
 
     res.status(201).json(userDto);
-  }
+  } else {
+    if (!hasFamily) {
+      const family = await Family.create({ name: lastName.toLowerCase() });
 
-  if (!hasFamily) {
-    const family = await Family.create({ name: lastName.toLowerCase() });
+      if (!family) {
+        res.status(400);
+        throw new Error("Nie udalo sie utworzyc rodziny");
+      }
 
-    if (!family) {
-      res.status(400);
-      throw new Error("Nie udalo sie utworzyc rodziny");
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+
+      const user = await User.create({
+        firstName,
+        lastName,
+        email: email.toLowerCase(),
+        hash,
+        memberOfFamily: family._id,
+        role: RoleEnum.user,
+      });
+
+      if (!user) {
+        res.status(400);
+        throw new Error("Nie udalo sie utworzyc uzytkownika");
+      }
+
+      const result = await family.updateOne({
+        $push: { familyMembers: [user._id] },
+      });
+
+      if (result.modifiedCount === 0) {
+        res.status(400);
+        throw new Error("Nie udalo sie dodac uzytkownika do rodziny");
+      }
+      const userDto: UserDto = {
+        id: user._id.toString(),
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        memberOfFamily: family._id.toString(),
+        token: generateToken(user._id.toString()),
+      };
+
+      res.status(201).json(userDto);
     }
 
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
+    if (hasFamily) {
+      const family = await Family.findById(memberOfFamily);
 
-    const user = await User.create({
-      firstName,
-      lastName,
-      email: email.toLowerCase(),
-      hash,
-      memberOfFamily: family._id,
-      role: RoleEnum.user,
-    });
+      if (!family) {
+        res.status(400);
+        throw new Error("Nie znaleziono rodziny");
+      }
 
-    if (!user) {
-      res.status(400);
-      throw new Error("Nie udalo sie utworzyc uzytkownika");
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(password, salt);
+
+      const user = await User.create({
+        firstName,
+        lastName,
+        email: email.toLowerCase(),
+        hash,
+        memberOfFamily: family._id,
+        role: RoleEnum.user,
+      });
+
+      if (!user) {
+        res.status(400);
+        throw new Error("Nie udalo sie utworzyc uzytkownika");
+      }
+
+      const result = await family.updateOne({
+        $push: { familyMembers: [user._id] },
+      });
+
+      if (result.modifiedCount === 0) {
+        res.status(400);
+        throw new Error("Nie udalo sie dodac uzytkownika do rodziny");
+      }
+      const userDto: UserDto = {
+        id: user._id.toString(),
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: user.role,
+        memberOfFamily: family._id.toString(),
+        token: generateToken(user._id.toString()),
+      };
+
+      res.status(201).json(userDto);
     }
-
-    const result = await family.updateOne({
-      $push: { familyMembers: [user._id] },
-    });
-
-    if (result.modifiedCount === 0) {
-      res.status(400);
-      throw new Error("Nie udalo sie dodac uzytkownika do rodziny");
-    }
-    const userDto: UserDto = {
-      id: user._id.toString(),
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-      memberOfFamily: family._id.toString(),
-      token: generateToken(user._id.toString()),
-    };
-
-    res.status(201).json(userDto);
-  }
-
-  if (hasFamily) {
-    const family = await Family.findById(memberOfFamily);
-
-    if (!family) {
-      res.status(400);
-      throw new Error("Nie znaleziono rodziny");
-    }
-
-    const salt = await bcrypt.genSalt(10);
-    const hash = await bcrypt.hash(password, salt);
-
-    const user = await User.create({
-      firstName,
-      lastName,
-      email: email.toLowerCase(),
-      hash,
-      memberOfFamily: family._id,
-      role: RoleEnum.user,
-    });
-
-    if (!user) {
-      res.status(400);
-      throw new Error("Nie udalo sie utworzyc uzytkownika");
-    }
-
-    const result = await family.updateOne({
-      $push: { familyMembers: [user._id] },
-    });
-
-    if (result.modifiedCount === 0) {
-      res.status(400);
-      throw new Error("Nie udalo sie dodac uzytkownika do rodziny");
-    }
-    const userDto: UserDto = {
-      id: user._id.toString(),
-      firstName: user.firstName,
-      lastName: user.lastName,
-      email: user.email,
-      role: user.role,
-      memberOfFamily: family._id.toString(),
-      token: generateToken(user._id.toString()),
-    };
-
-    res.status(201).json(userDto);
   }
 });
 
