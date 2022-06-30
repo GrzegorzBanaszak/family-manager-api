@@ -4,12 +4,14 @@ import dotenv from "dotenv";
 import http from "http";
 import https from "https";
 import fs from "fs";
+import connentDb from "./config/db";
+dotenv.config();
 
+connentDb();
 const options = {
   key: fs.readFileSync("key.pem"),
   cert: fs.readFileSync("cert.pem"),
 };
-dotenv.config();
 
 const app = express();
 app.use(express.json());

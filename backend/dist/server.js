@@ -8,11 +8,13 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const http_1 = __importDefault(require("http"));
 const https_1 = __importDefault(require("https"));
 const fs_1 = __importDefault(require("fs"));
+const db_1 = __importDefault(require("./config/db"));
+dotenv_1.default.config();
+(0, db_1.default)();
 const options = {
     key: fs_1.default.readFileSync("key.pem"),
     cert: fs_1.default.readFileSync("cert.pem"),
 };
-dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: false }));
