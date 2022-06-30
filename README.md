@@ -17,7 +17,7 @@ Aplikacja do zarządzania funduszami rodzinnymi składająca się z dwóch czę�
 
 **`http://localhost:5000/api/user/register`**
 
-```json
+```
 {
   "firstName": String,
   "lastName": String,
