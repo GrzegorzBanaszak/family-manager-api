@@ -4,7 +4,7 @@ import Family from "../../models/familyModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
-import { RegisterUserDto, GetUserDto, LoginUserDto } from "./dto";
+import { RegisterUserDto, UserDto, LoginUserDto } from "./dto";
 import { RoleEnum } from "../../Enums/RoleEnum";
 
 // @desc   - Rejestracja uzytkownika
@@ -50,7 +50,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       throw new Error("Nie udalo sie utworzyc uzytkownika");
     }
 
-    const userDto: GetUserDto = {
+    const userDto: UserDto = {
       id: user._id.toString(),
       firstName: user.firstName,
       lastName: user.lastName,
@@ -95,7 +95,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       res.status(400);
       throw new Error("Nie udalo sie dodac uzytkownika do rodziny");
     }
-    const userDto: GetUserDto = {
+    const userDto: UserDto = {
       id: user._id.toString(),
       firstName: user.firstName,
       lastName: user.lastName,
@@ -141,7 +141,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       res.status(400);
       throw new Error("Nie udalo sie dodac uzytkownika do rodziny");
     }
-    const userDto: GetUserDto = {
+    const userDto: UserDto = {
       id: user._id.toString(),
       firstName: user.firstName,
       lastName: user.lastName,
@@ -170,7 +170,7 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
 
   if (user && (await bcrypt.compare(password, user.hash))) {
     if (user.role === RoleEnum.admin) {
-      const userDto: GetUserDto = {
+      const userDto: UserDto = {
         id: user._id.toString(),
         firstName: user.firstName,
         lastName: user.lastName,
@@ -182,7 +182,7 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
     }
 
     if (user.role === RoleEnum.user) {
-      const userDto: GetUserDto = {
+      const userDto: UserDto = {
         id: user._id.toString(),
         firstName: user.firstName,
         lastName: user.lastName,
@@ -201,7 +201,7 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
 
 const getUser = asyncHandelr(async (req: Request, res: Response) => {
   if (req.user.role === RoleEnum.user) {
-    const userDto: GetUserDto = {
+    const userDto: UserDto = {
       id: req.user._id.toString(),
       firstName: req.user.firstName,
       lastName: req.user.lastName,
@@ -213,7 +213,7 @@ const getUser = asyncHandelr(async (req: Request, res: Response) => {
   }
 
   if (req.user.role === RoleEnum.admin) {
-    const userDto: GetUserDto = {
+    const userDto: UserDto = {
       id: req.user._id.toString(),
       firstName: req.user.firstName,
       lastName: req.user.lastName,

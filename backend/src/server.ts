@@ -11,6 +11,7 @@ import errorHandler from "./middleware/errorMiddleware";
 //Import routes
 import userRoutes from "./routes/userRoutes";
 import familyRoutes from "./routes/familyRoutes";
+import transactionRoutes from "./routes/transactionRoutes";
 
 dotenv.config();
 
@@ -33,6 +34,7 @@ app.use(cors());
 //Apllying all routes
 app.use("/api/user", userRoutes);
 app.use("/api/family", familyRoutes);
+app.use("/api/transaction", transactionRoutes);
 app.use(errorHandler);
 
 //Create http and https servers
