@@ -198,10 +198,35 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
     throw new Error("Niepoprawne dane logowania");
   }
 });
+
+const getUser = asyncHandelr(async (req: Request, res: Response) => {
+  if (req.user.role === RoleEnum.user) {
+    const userDto: GetUserDto = {
+      id: req.user._id.toString(),
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      email: req.user.email,
+      role: req.user.role,
+      familyId: req.user.memberOfFamily?.toString(),
+    };
+    res.status(200).json(userDto);
+  }
+
+  if (req.user.role === RoleEnum.admin) {
+    const userDto: GetUserDto = {
+      id: req.user._id.toString(),
+      firstName: req.user.firstName,
+      lastName: req.user.lastName,
+      email: req.user.email,
+      role: req.user.role,
+    };
+    res.status(200).json(userDto);
+  }
+});
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
     expiresIn: "1h",
   });
 };
 
-export { registerUser, loginUser };
+export { registerUser, loginUser, getUser };
