@@ -4,11 +4,10 @@ import Family from "../../models/familyModel";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
-import { RegisterUserDto } from "./dto/RegisterUserDto";
-import { GetUserDto } from "./dto/GetUserDto";
+import { RegisterUserDto, GetUserDto, LoginUserDto } from "./dto";
 import { RoleEnum } from "../../Enums/RoleEnum";
 
-// @desc   - Rejstracja uzytkownika
+// @desc   - Rejestracja uzytkownika
 // @route  - Post /api/user/register
 // @access - Public
 const registerUser = asyncHandelr(async (req: Request, res: Response) => {
@@ -57,6 +56,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
+      token: generateToken(user._id.toString()),
     };
 
     res.status(201).json(userDto);
@@ -102,6 +102,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       email: user.email,
       role: user.role,
       familyId: family._id.toString(),
+      token: generateToken(user._id.toString()),
     };
 
     res.status(201).json(userDto);
@@ -147,16 +148,60 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       email: user.email,
       role: user.role,
       familyId: family._id.toString(),
+      token: generateToken(user._id.toString()),
     };
 
     res.status(201).json(userDto);
   }
 });
 
+// @desc   - Logowanie uzytkownika
+// @route  - Post /api/user/login
+// @access - Public
+const loginUser = asyncHandelr(async (req: Request, res: Response) => {
+  const { email, password }: LoginUserDto = req.body;
+
+  if (!email || !password) {
+    res.status(400);
+    throw new Error("Nie wszystkie pola zostaly wypelnione");
+  }
+
+  const user = await User.findOne({ email: email.toLowerCase() });
+
+  if (user && (await bcrypt.compare(password, user.hash))) {
+    if (user.role === RoleEnum.admin) {
+      const userDto: GetUserDto = {
+        id: user._id.toString(),
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: RoleEnum.admin,
+        token: generateToken(user._id.toString()),
+      };
+      res.status(200).json(userDto);
+    }
+
+    if (user.role === RoleEnum.user) {
+      const userDto: GetUserDto = {
+        id: user._id.toString(),
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
+        role: RoleEnum.user,
+        familyId: user.memberOfFamily?.toString(),
+        token: generateToken(user._id.toString()),
+      };
+      res.status(200).json(userDto);
+    }
+  } else {
+    res.status(400);
+    throw new Error("Niepoprawne dane logowania");
+  }
+});
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
     expiresIn: "1h",
   });
 };
 
-export { registerUser };
+export { registerUser, loginUser };

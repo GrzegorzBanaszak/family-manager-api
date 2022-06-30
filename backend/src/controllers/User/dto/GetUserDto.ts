@@ -5,4 +5,5 @@ export interface GetUserDto {
   email: string;
   role: string;
   familyId?: string;
+  token: string;
 }
