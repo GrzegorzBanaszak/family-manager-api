@@ -26,7 +26,7 @@ JWT_SECRET= Sekretny klucz do szyfrowania tokenów
 
 **`http://localhost:5000/api/user/register`**
 
-```json
+```
 {
   "firstName": String,
   "lastName": String,
@@ -42,7 +42,7 @@ JWT_SECRET= Sekretny klucz do szyfrowania tokenów
 
 **`http://localhost:5000/api/user/login`**
 
-```json
+```
 {
   "email": String,
   "password": String,
@@ -53,7 +53,7 @@ JWT_SECRET= Sekretny klucz do szyfrowania tokenów
 
 **`http://localhost:5000/api/user/me`**
 
-```json
+```
 Authorization Bearer Token
 ```
 
@@ -61,7 +61,7 @@ Authorization Bearer Token
 
 **`http://localhost:5000/api/family`**
 
-```json
+```
 Authorization Bearer Token
 ```
 
@@ -69,7 +69,7 @@ Authorization Bearer Token
 
 **`http://localhost:5000/api/transaction/`**
 
-```json
+```
 Authorization Bearer Token
 
 {
@@ -81,7 +81,7 @@ Authorization Bearer Token
 
 **`http://localhost:5000/api/transaction/add`**
 
-```json
+```
 Authorization Bearer Token
 Jedynie dla admina
 Dodaje środki rodzinei do konta rodziny
