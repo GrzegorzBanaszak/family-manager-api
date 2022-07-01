@@ -18,7 +18,6 @@ MONGO_URI = Url dla mongoDb
 JWT_SECRET= Sekretny klucz do szyfrowania tokenów
 ```
 
-````
 
 #### Requsty
 
