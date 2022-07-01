@@ -2,8 +2,7 @@ import asyncHandler from "express-async-handler";
 import Transaction from "../../models/transactionModel";
 import Family from "../../models/familyModel";
 import { Request, Response } from "express";
-import { TransactionTypesEnum } from "../../Enums/TransactionTypesEnum";
-import { RoleEnum } from "../../Enums/RoleEnum";
+import { TransactionTypesEnum, RoleEnum } from "../../enums";
 const addTransaction = asyncHandler(async (req: Request, res: Response) => {
   const { amount } = req.body;
   const { firstName, lastName, memberOfFamily } = req.user;

@@ -11,6 +11,15 @@ Aplikacja do zarządzania funduszami rodzinnymi składająca się z dwóch czę�
 
 ![Node.js](https://img.shields.io/badge/node.js-339933?style=for-the-badge&logo=node.js&logoColor=white) ![MongoDb](https://img.shields.io/badge/mongodb-47A248?style=for-the-badge&logo=mongodb&logoColor=white) ![Typescript](https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white) ![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=Express&logoColor=white) ![Json%20web%20token](https://img.shields.io/badge/Json%20web%20token-000000?style=for-the-badge&logo=Jsonwebtokens&logoColor=white)
 
+Aby aplikacja działala należy umieścić plik .env w katalogu głównym aplikacji.
+
+```
+MONGO_URI = Url dla mongoDb
+JWT_SECRET= Sekretny klucz do szyfrowania tokenów
+```
+
+````
+
 #### Requsty
 
 ![Register](https://img.shields.io/static/v1?style=for-the-badge&label=Register&message=Post&color=yellow)
@@ -27,7 +36,7 @@ Aplikacja do zarządzania funduszami rodzinnymi składająca się z dwóch czę�
   "hasFamily": Boolean,
   "memberOfFamily": String ? Jezeli posiada rodzine to podaj id rodziny
 }
-```
+````
 
 ![Login](https://img.shields.io/static/v1?style=for-the-badge&label=Login&message=Post&color=yellow)
 

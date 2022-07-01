@@ -5,7 +5,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { RegisterUserDto, UserDto, LoginUserDto } from "./dto";
-import { RoleEnum } from "../../Enums/RoleEnum";
+import { RoleEnum } from "../../enums";
 
 // @desc   - Rejestracja uzytkownika
 // @route  - Post /api/user/register
@@ -24,6 +24,11 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
   if (!firstName || !lastName || !email || !password) {
     res.status(400);
     throw new Error("Nie wszystkie pola zostaly wypelnione");
+  }
+
+  if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) {
+    res.status(400);
+    throw new Error("Niepoprawny adres email");
   }
 
   const userExist = await User.findOne({ email });
