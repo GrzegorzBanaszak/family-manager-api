@@ -5,14 +5,9 @@ import { NextFunction, Request, Response } from "express";
 
 const protect = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    let token;
-    if (
-      req.headers.authorization &&
-      req.headers.authorization.startsWith("Bearer")
-    ) {
+    const token = req.cookies.token;
+    if (token) {
       try {
-        token = req.headers.authorization.split(" ")[1];
-
         const decode = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
 
         req.user = await User.findById(decode.id).select("-hash");

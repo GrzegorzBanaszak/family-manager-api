@@ -5,5 +5,4 @@ export interface UserDto {
   email: string;
   role: string;
   memberOfFamily?: string;
-  token?: string;
 }

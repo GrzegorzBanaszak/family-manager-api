@@ -20,7 +20,6 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
     hasFamily,
     role,
     memberOfFamily,
-    verificationKey,
   }: RegisterUserDto = req.body;
 
   if (!firstName || !lastName || !email || !password) {
@@ -28,11 +27,13 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
     throw new Error("Nie wszystkie pola zostaly wypelnione");
   }
 
+  //Walidacja emaila
   if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email) === false) {
     res.status(400);
     throw new Error("Niepoprawny adres email");
   }
 
+  //Sprawdzenie czy uzytkownik istnieje
   const userExist = await User.findOne({ email });
 
   if (userExist) {
@@ -40,6 +41,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
     throw new Error("Uzytkownik o podanym emailu juz istnieje");
   }
 
+  //Utworzenie użytkownika w zaleznosci od roli
   if (role === RoleEnum.admin) {
     const salt = await bcrypt.genSalt(10);
     const hash = await bcrypt.hash(password, salt);
@@ -63,11 +65,13 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       lastName: user.lastName,
       email: user.email,
       role: user.role,
-      token: generateToken(user._id.toString()),
     };
 
+    //Wysłanie danych użytkownia i ustawienie tokena
+    res.cookie("token", generateToken(user._id.toString()));
     res.status(201).json(userDto);
   } else {
+    //Utworzenie użytkowniaka w zależności czy ma rodzica
     if (!hasFamily) {
       const family = await Family.create({
         name: lastName.toLowerCase(),
@@ -111,9 +115,9 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
         email: user.email,
         role: user.role,
         memberOfFamily: family._id.toString(),
-        token: generateToken(user._id.toString()),
       };
 
+      res.cookie("token", generateToken(user._id.toString()));
       res.status(201).json(userDto);
     }
 
@@ -123,11 +127,6 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       if (!family) {
         res.status(400);
         throw new Error("Nie znaleziono rodziny");
-      }
-
-      if (family.verificationKey !== verificationKey) {
-        res.status(400);
-        throw new Error("Niepoprawny kod weryfikacyjny");
       }
 
       const salt = await bcrypt.genSalt(10);
@@ -162,9 +161,9 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
         email: user.email,
         role: user.role,
         memberOfFamily: family._id.toString(),
-        token: generateToken(user._id.toString()),
       };
 
+      res.cookie("token", generateToken(user._id.toString()));
       res.status(201).json(userDto);
     }
   }
@@ -183,6 +182,7 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
 
   const user = await User.findOne({ email: email.toLowerCase() });
 
+  //Jeżeli użytkownik istnieje i hasło jest poprawne to zwracamy dane i token
   if (user && (await bcrypt.compare(password, user.hash))) {
     if (user.role === RoleEnum.admin) {
       const userDto: UserDto = {
@@ -191,8 +191,9 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
         lastName: user.lastName,
         email: user.email,
         role: RoleEnum.admin,
-        token: generateToken(user._id.toString()),
       };
+
+      res.cookie("token", generateToken(user._id.toString()));
       res.status(200).json(userDto);
     }
 
@@ -204,14 +205,19 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
         email: user.email,
         role: RoleEnum.user,
         memberOfFamily: user.memberOfFamily?.toString(),
-        token: generateToken(user._id.toString()),
       };
+      res.cookie("token", generateToken(user._id.toString()));
       res.status(200).json(userDto);
     }
   } else {
     res.status(400);
     throw new Error("Nieprawidłowy email lub hasło");
   }
+});
+
+const logout = asyncHandelr(async (req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "Wylogowano" });
 });
 
 const getUser = asyncHandelr(async (req: Request, res: Response) => {
@@ -238,10 +244,12 @@ const getUser = asyncHandelr(async (req: Request, res: Response) => {
     res.status(200).json(userDto);
   }
 });
+
+//Generowanie tokena
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
     expiresIn: "1h",
   });
 };
 
-export { registerUser, loginUser, getUser };
+export { registerUser, loginUser, getUser, logout };
