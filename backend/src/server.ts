@@ -42,23 +42,6 @@ app.use("/api/family", familyRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use(errorHandler);
 
-//cookis test
-
-app.get("/getCookes", (req: Request, res: Response) => {
-  res.cookie(`Cookie token name`, `encrypted cookie string Value`, {
-    secure: true,
-    httpOnly: true,
-    sameSite: "lax",
-  });
-  res.send("Cookie have been saved successfully");
-});
-
-app.get("/deletecookie", (req: Request, res: Response) => {
-  //show the saved cookies
-  res.clearCookie("Cookie token name");
-  res.send("Cookie has been deleted successfully");
-});
-
 //Statrt http servers
 httpServer.listen(PORT_HTTP, () => {
   console.log(`HTTP Server is running on port ${PORT_HTTP}`);
