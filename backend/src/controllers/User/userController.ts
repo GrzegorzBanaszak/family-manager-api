@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs";
 import { Request, Response } from "express";
 import { RegisterUserDto, UserDto, LoginUserDto } from "./dto";
 import { RoleEnum } from "../../enums";
+import { v4 as uuidv4 } from "uuid";
 
 // @desc   - Rejestracja uzytkownika
 // @route  - Post /api/user/register
@@ -19,6 +20,7 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
     hasFamily,
     role,
     memberOfFamily,
+    verificationKey,
   }: RegisterUserDto = req.body;
 
   if (!firstName || !lastName || !email || !password) {
@@ -67,7 +69,10 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
     res.status(201).json(userDto);
   } else {
     if (!hasFamily) {
-      const family = await Family.create({ name: lastName.toLowerCase() });
+      const family = await Family.create({
+        name: lastName.toLowerCase(),
+        verificationKey: uuidv4(),
+      });
 
       if (!family) {
         res.status(400);
@@ -118,6 +123,11 @@ const registerUser = asyncHandelr(async (req: Request, res: Response) => {
       if (!family) {
         res.status(400);
         throw new Error("Nie znaleziono rodziny");
+      }
+
+      if (family.verificationKey !== verificationKey) {
+        res.status(400);
+        throw new Error("Niepoprawny kod weryfikacyjny");
       }
 
       const salt = await bcrypt.genSalt(10);

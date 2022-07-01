@@ -15,6 +15,10 @@ const familySchema = new mongoose.Schema(
     transactions: [
       { type: mongoose.Schema.Types.ObjectId, ref: "Transaction" },
     ],
+    verificationKey: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true }
 );

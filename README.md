@@ -35,6 +35,7 @@ JWT_SECRET= Sekretny klucz do szyfrowania tokenów
   "role": String ["admin", "user"],
   "hasFamily": Boolean,
   "memberOfFamily": String ? Jezeli posiada rodzine to podaj id rodziny
+  "verificationKey": String ? Jezeli posiada rodzine to podaj klucz do weryfikacji
 }
 ````
 
