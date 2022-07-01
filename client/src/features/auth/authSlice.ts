@@ -4,7 +4,6 @@ import authServices from "./authServices";
 
 const initialState: AuthState = {
   user: null,
-  token: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -43,8 +42,6 @@ export const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.token = action.payload.token;
-        delete action.payload.token;
         state.user = action.payload;
       })
       .addCase(login.rejected, (state, action) => {

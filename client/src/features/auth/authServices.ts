@@ -1,6 +1,7 @@
 import axios from "axios";
 import { LoginData } from "./authTypes";
 
+axios.defaults.withCredentials = true;
 const HTTPS_URL: string = "http://localhost:5000/api/user/";
 
 const login = async (data: LoginData) => {

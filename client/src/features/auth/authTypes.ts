@@ -2,7 +2,6 @@ import { User } from "../../types/UserInterface";
 
 export interface AuthState {
   user: User | null;
-  token: string | null;
   isError: boolean;
   isSuccess: boolean;
   isLoading: boolean;

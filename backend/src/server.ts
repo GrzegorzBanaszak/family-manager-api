@@ -18,7 +18,7 @@ dotenv.config();
 
 const PORT_HTTP = process.env.PORT_HTTP || 5000;
 const PORT_HTTPS = process.env.PORT_HTTPS || 8000;
-
+const REACT_APP_URL = process.env.REACT_APP_URL || "http://localhost:3000";
 //Start db connection
 connentDb();
 
@@ -31,7 +31,7 @@ const app = express();
 //Create http and https servers
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(options, app);
-app.use(cors({ credentials: true, origin: "*" }));
+app.use(cors({ credentials: true, origin: REACT_APP_URL }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
