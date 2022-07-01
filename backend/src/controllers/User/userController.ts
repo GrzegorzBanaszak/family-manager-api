@@ -210,7 +210,7 @@ const loginUser = asyncHandelr(async (req: Request, res: Response) => {
     }
   } else {
     res.status(400);
-    throw new Error("Niepoprawne dane logowania");
+    throw new Error("Nieprawidłowy email lub hasło");
   }
 });
 

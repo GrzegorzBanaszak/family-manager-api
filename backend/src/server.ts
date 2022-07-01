@@ -27,19 +27,18 @@ const options = {
 };
 
 const app = express();
+//Create http and https servers
+const httpServer = http.createServer(app);
+const httpsServer = https.createServer(options, app);
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 
 //Apllying all routes
 app.use("/api/user", userRoutes);
 app.use("/api/family", familyRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use(errorHandler);
-
-//Create http and https servers
-const httpServer = http.createServer(app);
-const httpsServer = https.createServer(options, app);
 
 //Statrt http servers
 httpServer.listen(PORT_HTTP, () => {
