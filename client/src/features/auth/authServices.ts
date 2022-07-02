@@ -1,5 +1,5 @@
 import axios from "../../axiosConfig";
-import { LoginData } from "./authTypes";
+import { LoginData } from "../../types";
 
 const HTTPS_URL: string = "http://localhost:5000/api/user/";
 

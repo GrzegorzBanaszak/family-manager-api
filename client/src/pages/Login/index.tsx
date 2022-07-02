@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AiOutlineLogin } from "react-icons/ai";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { LoginData } from "../../features/auth/authTypes";
+import { LoginData } from "../../types";
 import { login, reset } from "../../features/auth/authSlice";
 import {
   LoginButton,

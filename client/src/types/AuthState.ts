@@ -1,4 +1,4 @@
-import { User } from "../../types/UserInterface";
+import { User } from "./User";
 
 export interface AuthState {
   user: User | null;
@@ -6,9 +6,4 @@ export interface AuthState {
   isSuccess: boolean;
   isLoading: boolean;
   message: string | null;
-}
-
-export interface LoginData {
-  email: string;
-  password: string;
 }
