@@ -9,5 +9,12 @@ const login = async (data: LoginData) => {
   return res.data;
 };
 
-const authServices = { login };
+const familyCheck = async (verificationKey: string) => {
+  const res = await axios.get(
+    "http://localhost:5000/api/family/verification/" + verificationKey
+  );
+
+  return res.data;
+};
+const authServices = { login, familyCheck };
 export default authServices;

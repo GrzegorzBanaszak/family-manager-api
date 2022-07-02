@@ -78,9 +78,21 @@ export const RegisterFamilyCheck = styled.div`
 
 export const RegisterFamilyBox = styled.div`
   display: flex;
+  align-items: center;
+  gap: 1rem;
   input {
     flex-grow: 1;
   }
+`;
+
+export const RegisterFamilyName = styled.div`
+  text-transform: uppercase;
+  font-size: 1.2rem;
+`;
+export const RegisterFamilyError = styled.div`
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  color: #ff5722;
 `;
 
 export const RegisterFamilyBtn = styled.div`

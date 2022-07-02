@@ -14,4 +14,20 @@ const getFamily = asyncHandelr(async (req, res) => {
   res.status(200).json(family);
 });
 
-export { getFamily };
+// @desc   - Pobranie rodziny po kluczu rodziny
+// @route  - Post /api/family/verification
+// @access - Public
+const verificationFamily = asyncHandelr(async (req, res) => {
+  const family = await Family.findOne({
+    verificationKey: req.params.verificationKey,
+  });
+
+  if (!family) {
+    res.status(400);
+    throw new Error("Nie znaleziono rodziny");
+  }
+
+  res.status(200).json({ id: family._id, name: family.name });
+});
+
+export { getFamily, verificationFamily };

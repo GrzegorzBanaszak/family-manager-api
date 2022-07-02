@@ -6,6 +6,8 @@ import {
   RegisterFamilyBox,
   RegisterFamilyBtn,
   RegisterFamilyCheck,
+  RegisterFamilyError,
+  RegisterFamilyName,
   RegisterForm,
   RegisterFormGroupe,
   RegisterLink,
@@ -13,7 +15,8 @@ import {
   RegisterTitle,
 } from "./register.components";
 import { AiFillCheckSquare, AiOutlineUserAdd } from "react-icons/ai";
-
+import { familyCheck } from "../../features/auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 const defaultState: RegisterData = {
   firstName: "",
   lastName: "",
@@ -27,9 +30,21 @@ const defaultState: RegisterData = {
 const Register = () => {
   const [formData, setFormData] = useState<RegisterData>(defaultState);
   const [hasFamily, setHasFamily] = useState<boolean>(false);
+  const [verificationKey, setVerificationKey] = useState<string>("");
+
+  const { familyVerified, familyVerifiedError } = useAppSelector(
+    (state) => state.auth
+  );
+
+  const dispatch = useAppDispatch();
 
   const onChande = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+  const checkFamily = () => {
+    if (verificationKey) {
+      dispatch(familyCheck(verificationKey));
+    }
   };
 
   return (
@@ -91,10 +106,24 @@ const Register = () => {
           {hasFamily && (
             <>
               <RegisterFamilyBox>
-                <input placeholder="Klucz weryfikacji rodziny" />
+                <input
+                  value={verificationKey}
+                  onChange={(e) => setVerificationKey(e.target.value)}
+                  placeholder="Klucz weryfikacji rodziny"
+                />
               </RegisterFamilyBox>
               <RegisterFamilyBox>
-                <RegisterFamilyBtn>Sprawdz</RegisterFamilyBtn>
+                <RegisterFamilyBtn onClick={checkFamily}>
+                  Sprawdz
+                </RegisterFamilyBtn>
+                {familyVerifiedError && (
+                  <RegisterFamilyError>
+                    {familyVerifiedError}
+                  </RegisterFamilyError>
+                )}
+                {familyVerified && (
+                  <RegisterFamilyName>{familyVerified.name}</RegisterFamilyName>
+                )}
               </RegisterFamilyBox>
             </>
           )}

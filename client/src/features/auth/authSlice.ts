@@ -4,11 +4,26 @@ import authServices from "./authServices";
 
 const initialState: AuthState = {
   user: null,
+  familyVerified: null,
+  familyVerifiedError: "",
   isError: false,
   isSuccess: false,
   isLoading: false,
   message: null,
 };
+
+export const familyCheck = createAsyncThunk(
+  "auth/familyCheck",
+  async (verificationKey: string, thunkAPI) => {
+    try {
+      return await authServices.familyCheck(verificationKey);
+    } catch (error: any) {
+      const message =
+        error.response.data.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -48,6 +63,16 @@ export const authSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload as string;
+      })
+      .addCase(familyCheck.pending, (state) => {
+        state.familyVerified = null;
+        state.familyVerifiedError = "";
+      })
+      .addCase(familyCheck.fulfilled, (state, action) => {
+        state.familyVerified = action.payload;
+      })
+      .addCase(familyCheck.rejected, (state, action) => {
+        state.familyVerifiedError = action.payload as string;
       });
   },
 });
