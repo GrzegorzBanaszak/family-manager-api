@@ -4,6 +4,7 @@ export interface RegisterData {
   email: string;
   password: string;
   confirmPassword: string;
+  hasFamily: boolean;
   memberOfFamily: string;
   role: string;
 }

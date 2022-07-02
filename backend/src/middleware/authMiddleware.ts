@@ -15,6 +15,7 @@ const protect = asyncHandler(
       } catch (error) {
         if (error instanceof jwt.TokenExpiredError) {
           res.status(401);
+          res.clearCookie("token");
           throw new Error("Token wygasł");
         }
         res.status(401);

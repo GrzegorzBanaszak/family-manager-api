@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RegisterData } from "../../types";
 import {
   RegisterContainer,
   RegisterContent,
+  RegisterError,
   RegisterFamilyBox,
   RegisterFamilyBtn,
   RegisterFamilyCheck,
@@ -15,8 +16,14 @@ import {
   RegisterTitle,
 } from "./register.components";
 import { AiFillCheckSquare, AiOutlineUserAdd } from "react-icons/ai";
-import { familyCheck } from "../../features/auth/authSlice";
+import {
+  familyCheck,
+  reset,
+  setFormError,
+  register,
+} from "../../features/auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useNavigate } from "react-router-dom";
 const defaultState: RegisterData = {
   firstName: "",
   lastName: "",
@@ -24,6 +31,7 @@ const defaultState: RegisterData = {
   password: "",
   confirmPassword: "",
   memberOfFamily: "",
+  hasFamily: false,
   role: "user",
 };
 
@@ -31,12 +39,24 @@ const Register = () => {
   const [formData, setFormData] = useState<RegisterData>(defaultState);
   const [hasFamily, setHasFamily] = useState<boolean>(false);
   const [verificationKey, setVerificationKey] = useState<string>("");
-
-  const { familyVerified, familyVerifiedError } = useAppSelector(
-    (state) => state.auth
-  );
-
+  const nav = useNavigate();
   const dispatch = useAppDispatch();
+
+  const {
+    user,
+    familyVerified,
+    familyVerifiedError,
+    isError,
+    isSuccess,
+    message,
+  } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(reset());
+      nav("/");
+    }
+  }, [user]);
 
   const onChande = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -47,13 +67,37 @@ const Register = () => {
     }
   };
 
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (formData.password === formData.confirmPassword) {
+      if (hasFamily && familyVerified) {
+        dispatch(
+          register({
+            ...formData,
+            memberOfFamily: familyVerified?.id,
+            hasFamily,
+          })
+        );
+      } else {
+        dispatch(
+          register({
+            ...formData,
+            hasFamily,
+          })
+        );
+      }
+    } else {
+      dispatch(setFormError("Hasła nie są identyczne"));
+    }
+  };
+
   return (
     <RegisterContainer>
       <RegisterContent>
         <RegisterTitle>
           <AiOutlineUserAdd /> Rejestracja
         </RegisterTitle>
-        <RegisterForm>
+        <RegisterForm onSubmit={onSubmit}>
           <label>Imie i nazwisko</label>
           <RegisterFormGroupe>
             <input
@@ -89,7 +133,7 @@ const Register = () => {
               onChange={onChande}
             />
             <input
-              type="confirmPassword"
+              type="password"
               id="confirmPassword"
               placeholder="Potwierdź hasło"
               name="confirmPassword"
@@ -127,6 +171,7 @@ const Register = () => {
               </RegisterFamilyBox>
             </>
           )}
+          {isError && <RegisterError>{message}</RegisterError>}
           <RegisterLink to="/login">Zaloguj</RegisterLink>
           <RegisterSubmit>Zarejestruj</RegisterSubmit>
         </RegisterForm>

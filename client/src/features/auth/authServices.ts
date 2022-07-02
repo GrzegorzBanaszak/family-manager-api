@@ -1,10 +1,22 @@
 import axios from "../../axiosConfig";
-import { LoginData } from "../../types";
+import { LoginData, RegisterData } from "../../types";
 
 const HTTPS_URL: string = "http://localhost:5000/api/user/";
 
 const login = async (data: LoginData) => {
   const res = await axios.post(HTTPS_URL + "login", data);
+
+  return res.data;
+};
+
+const register = async (data: RegisterData) => {
+  const res = await axios.post(HTTPS_URL + "register", data);
+
+  return res.data;
+};
+
+const getUser = async () => {
+  const res = await axios.get(HTTPS_URL + "me");
 
   return res.data;
 };
@@ -16,5 +28,5 @@ const familyCheck = async (verificationKey: string) => {
 
   return res.data;
 };
-const authServices = { login, familyCheck };
+const authServices = { login, familyCheck, register, getUser };
 export default authServices;

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { AuthState, LoginData } from "../../types";
+import { AuthState, LoginData, RegisterData } from "../../types";
 import authServices from "./authServices";
 
 const initialState: AuthState = {
@@ -38,15 +38,43 @@ export const login = createAsyncThunk(
   }
 );
 
+export const register = createAsyncThunk(
+  "auth/register",
+  async (data: RegisterData, thunkAPI) => {
+    try {
+      return await authServices.register(data);
+    } catch (error: any) {
+      const message =
+        error.response.data.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
+  try {
+    return await authServices.getUser();
+  } catch (error: any) {
+    const message =
+      error.response.data.message || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
     reset: (state) => {
+      state.familyVerified = null;
+      state.familyVerifiedError = "";
       state.isError = false;
       state.isSuccess = false;
       state.isLoading = false;
       state.message = null;
+    },
+    setFormError: (state, action) => {
+      state.isError = true;
+      state.message = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -64,6 +92,22 @@ export const authSlice = createSlice({
         state.isError = true;
         state.message = action.payload as string;
       })
+      .addCase(register.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload as string;
+      })
+      .addCase(getUser.fulfilled, (state, action) => {
+        state.user = action.payload;
+      })
       .addCase(familyCheck.pending, (state) => {
         state.familyVerified = null;
         state.familyVerifiedError = "";
@@ -76,5 +120,5 @@ export const authSlice = createSlice({
       });
   },
 });
-export const { reset } = authSlice.actions;
+export const { reset, setFormError } = authSlice.actions;
 export default authSlice.reducer;

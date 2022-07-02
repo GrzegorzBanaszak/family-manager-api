@@ -58,7 +58,11 @@ const registerAdmin = asyncHandeler(async (req: Request, res: Response) => {
   };
 
   //Wysłanie danych użytkownia i ustawienie tokena
-  res.cookie("token", generateToken(user._id.toString()));
+  res.cookie("token", generateToken(user._id.toString()), {
+    secure: true,
+    httpOnly: true,
+    sameSite: "lax",
+  });
   res.status(201).json(userDto);
 });
 
@@ -141,7 +145,11 @@ const registerUser = asyncHandeler(async (req: Request, res: Response) => {
       memberOfFamily: user.memberOfFamily.toString(),
     };
 
-    res.cookie("token", generateToken(user._id.toString()));
+    res.cookie("token", generateToken(user._id.toString()), {
+      secure: true,
+      httpOnly: true,
+      sameSite: "lax",
+    });
     res.status(201).json(userDto);
   }
 
@@ -188,7 +196,11 @@ const registerUser = asyncHandeler(async (req: Request, res: Response) => {
       memberOfFamily: user.memberOfFamily.toString(),
     };
 
-    res.cookie("token", generateToken(user._id.toString()));
+    res.cookie("token", generateToken(user._id.toString()), {
+      secure: true,
+      httpOnly: true,
+      sameSite: "lax",
+    });
     res.status(201).json(userDto);
   }
 });
@@ -231,7 +243,11 @@ const loginUser = asyncHandeler(async (req: Request, res: Response) => {
         memberOfFamily: user.memberOfFamily?.toString(),
       };
 
-      res.cookie("token", generateToken(user._id.toString()));
+      res.cookie("token", generateToken(user._id.toString()), {
+        secure: true,
+        httpOnly: true,
+        sameSite: "lax",
+      });
       res.status(201).json(userDto);
     }
   } else {
