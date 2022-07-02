@@ -11,12 +11,17 @@ const login = async (data: LoginData) => {
 
 const register = async (data: RegisterData) => {
   const res = await axios.post(HTTPS_URL + "register", data);
-
   return res.data;
 };
 
 const getUser = async () => {
   const res = await axios.get(HTTPS_URL + "me");
+
+  return res.data;
+};
+
+const logout = async () => {
+  const res = await axios.get(HTTPS_URL + "logout");
 
   return res.data;
 };
@@ -28,5 +33,5 @@ const familyCheck = async (verificationKey: string) => {
 
   return res.data;
 };
-const authServices = { login, familyCheck, register, getUser };
+const authServices = { login, familyCheck, register, getUser, logout };
 export default authServices;

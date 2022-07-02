@@ -1,4 +1,4 @@
-import { useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   NavbarContainer,
   NavbarElementRight,
@@ -9,8 +9,10 @@ import {
 import { AiOutlineUser } from "react-icons/ai";
 import { TbReportMoney } from "react-icons/tb";
 import { BiLogOut } from "react-icons/bi";
+import { logout } from "../../features/auth/authSlice";
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.auth);
+  const dispatch = useAppDispatch();
 
   return (
     <NavbarContainer>
@@ -21,7 +23,7 @@ const Navbar = () => {
         <NavbarMoney>
           <TbReportMoney fontSize={24} /> 1000 zł
         </NavbarMoney>
-        <NavbarLogout>
+        <NavbarLogout onClick={() => dispatch(logout())}>
           <BiLogOut fontSize={24} />
         </NavbarLogout>
       </NavbarElementLeft>

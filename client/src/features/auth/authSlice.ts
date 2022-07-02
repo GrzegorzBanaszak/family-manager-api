@@ -60,6 +60,16 @@ export const getUser = createAsyncThunk("auth/getUser", async (_, thunkAPI) => {
     return thunkAPI.rejectWithValue(message);
   }
 });
+
+export const logout = createAsyncThunk("auth/logout", async (_, thunkAPI) => {
+  try {
+    return await authServices.logout();
+  } catch (error: any) {
+    const message =
+      error.response.data.message || error.message || error.toString();
+    return thunkAPI.rejectWithValue(message);
+  }
+});
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -117,6 +127,15 @@ export const authSlice = createSlice({
       })
       .addCase(familyCheck.rejected, (state, action) => {
         state.familyVerifiedError = action.payload as string;
+      })
+      .addCase(logout.fulfilled, (state, action) => {
+        state.user = null;
+        state.familyVerified = null;
+        state.familyVerifiedError = "";
+        state.isError = false;
+        state.isSuccess = false;
+        state.isLoading = false;
+        state.message = null;
       });
   },
 });
