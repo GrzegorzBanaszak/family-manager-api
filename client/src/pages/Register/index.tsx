@@ -37,7 +37,6 @@ const defaultState: RegisterData = {
 
 const Register = () => {
   const [formData, setFormData] = useState<RegisterData>(defaultState);
-  const [hasFamily, setHasFamily] = useState<boolean>(false);
   const [verificationKey, setVerificationKey] = useState<string>("");
   const nav = useNavigate();
   const dispatch = useAppDispatch();
@@ -67,24 +66,22 @@ const Register = () => {
     }
   };
 
+  const handleHasFamily = (e: React.MouseEvent<HTMLDivElement>) => {
+    setFormData((prev) => ({ ...prev, hasFamily: !prev.hasFamily }));
+  };
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (formData.password === formData.confirmPassword) {
-      if (hasFamily && familyVerified) {
+      if (formData.hasFamily && familyVerified) {
         dispatch(
           register({
             ...formData,
             memberOfFamily: familyVerified?.id,
-            hasFamily,
           })
         );
       } else {
-        dispatch(
-          register({
-            ...formData,
-            hasFamily,
-          })
-        );
+        dispatch(register(formData));
       }
     } else {
       dispatch(setFormError("Hasła nie są identyczne"));
@@ -140,14 +137,14 @@ const Register = () => {
               onChange={onChande}
             />
           </RegisterFormGroupe>
-          <RegisterFamilyCheck onClick={() => setHasFamily((prev) => !prev)}>
+          <RegisterFamilyCheck onClick={handleHasFamily}>
             <AiFillCheckSquare
               fontSize={22}
-              color={hasFamily ? "#388e3c" : "#bdbdbd"}
+              color={formData.hasFamily ? "#388e3c" : "#bdbdbd"}
             />
             Chce dołączyć do istniejącej rodziny
           </RegisterFamilyCheck>
-          {hasFamily && (
+          {formData.hasFamily && (
             <>
               <RegisterFamilyBox>
                 <input
