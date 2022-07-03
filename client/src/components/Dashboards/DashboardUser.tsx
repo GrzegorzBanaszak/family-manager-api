@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   Header,
@@ -9,14 +9,15 @@ import {
 } from "./dashboards.components";
 import { getFamily } from "../../features/family/familySlice";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { setDashboardUserLocation } from "../../features/dashboard/dashboardSlice";
 import Transactions from "../Transactions";
 import FamilyMembers from "../FamilyMembers";
 import AddTransaction from "../AddTransaction";
 const DashboardUser = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { family } = useAppSelector((state) => state.family);
+  const { dashboardUserLocation } = useAppSelector((state) => state.dashboard);
   const dispatch = useAppDispatch();
-  const [selected, setSelected] = useState<string>("transactions");
 
   useEffect(() => {
     if (user && !family) {
@@ -25,7 +26,7 @@ const DashboardUser = () => {
   }, [user]);
 
   const display = (): JSX.Element => {
-    switch (selected) {
+    switch (dashboardUserLocation) {
       case "transactions":
         return <Transactions />;
       case "familyMembers":
@@ -41,21 +42,23 @@ const DashboardUser = () => {
       <Header>
         <HeaderLeft>
           <HeaderControl
-            onClick={() => setSelected("transactions")}
-            isActive={selected === "transactions"}
+            onClick={() => dispatch(setDashboardUserLocation("transactions"))}
+            isActive={dashboardUserLocation === "transactions"}
           >
             Transakcje
           </HeaderControl>
           <HeaderControl
-            onClick={() => setSelected("familyMembers")}
-            isActive={selected === "familyMembers"}
+            onClick={() => dispatch(setDashboardUserLocation("familyMembers"))}
+            isActive={dashboardUserLocation === "familyMembers"}
           >
             Członkowie rodziny
           </HeaderControl>
         </HeaderLeft>
         <HeaderRight>
           <p>{family?.cash} zł</p>
-          <HeaderAdd onClick={() => setSelected("addTransaction")}>
+          <HeaderAdd
+            onClick={() => dispatch(setDashboardUserLocation("addTransaction"))}
+          >
             <IoMdAddCircleOutline /> Dodaj transakcje
           </HeaderAdd>
         </HeaderRight>

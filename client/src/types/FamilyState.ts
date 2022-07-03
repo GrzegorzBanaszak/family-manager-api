@@ -7,4 +7,6 @@ export interface FamilyState {
   isSuccess: boolean;
   isLoading: boolean;
   message: string | null;
+  transactionError: boolean;
+  transactionSuccess: boolean;
 }

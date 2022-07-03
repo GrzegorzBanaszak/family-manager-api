@@ -12,6 +12,11 @@ const addTransaction = asyncHandler(async (req: Request, res: Response) => {
     throw new Error("Nie wszystkie pola zostaly wypelnione");
   }
 
+  if (amount === 0) {
+    res.status(400);
+    throw new Error("Nie można dokonać transakcji za 0");
+  }
+
   const family = await Family.findById(memberOfFamily);
 
   if (amount > family?.cash!) {

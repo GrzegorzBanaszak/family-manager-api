@@ -7,3 +7,5 @@ export * from "./Family";
 export * from "./FamilyState";
 export * from "./FamilyMember";
 export * from "./Transaction";
+export * from "./TransactionData";
+export * from "./DashboardState";
