@@ -7,6 +7,7 @@ import { Request, Response } from "express";
 import { RegisterUserDto, UserDto, LoginUserDto } from "./dto";
 import { RoleEnum } from "../../enums";
 import { v4 as uuidv4 } from "uuid";
+import { cookisConfig } from "../../cookisConfig";
 
 // @desc   - Rejestracja administratora
 // @route  - Post /api/user/admin/register
@@ -58,11 +59,7 @@ const registerAdmin = asyncHandeler(async (req: Request, res: Response) => {
   };
 
   //Wysłanie danych użytkownia i ustawienie tokena
-  res.cookie("token", generateToken(user._id.toString()), {
-    secure: true,
-    httpOnly: true,
-    sameSite: "lax",
-  });
+  res.cookie("token", generateToken(user._id.toString()), cookisConfig);
   res.status(201).json(userDto);
 });
 
@@ -145,11 +142,7 @@ const registerUser = asyncHandeler(async (req: Request, res: Response) => {
       memberOfFamily: user.memberOfFamily.toString(),
     };
 
-    res.cookie("token", generateToken(user._id.toString()), {
-      secure: true,
-      httpOnly: true,
-      sameSite: "lax",
-    });
+    res.cookie("token", generateToken(user._id.toString()), cookisConfig);
     res.status(201).json(userDto);
   }
 
@@ -196,11 +189,7 @@ const registerUser = asyncHandeler(async (req: Request, res: Response) => {
       memberOfFamily: user.memberOfFamily.toString(),
     };
 
-    res.cookie("token", generateToken(user._id.toString()), {
-      secure: true,
-      httpOnly: true,
-      sameSite: "lax",
-    });
+    res.cookie("token", generateToken(user._id.toString()), cookisConfig);
     res.status(201).json(userDto);
   }
 });
@@ -243,11 +232,7 @@ const loginUser = asyncHandeler(async (req: Request, res: Response) => {
         memberOfFamily: user.memberOfFamily?.toString(),
       };
 
-      res.cookie("token", generateToken(user._id.toString()), {
-        secure: true,
-        httpOnly: true,
-        sameSite: "lax",
-      });
+      res.cookie("token", generateToken(user._id.toString()), cookisConfig);
       res.status(201).json(userDto);
     }
   } else {
