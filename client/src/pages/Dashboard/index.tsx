@@ -1,10 +1,14 @@
 import { Outlet } from "react-router-dom";
-import { DashboardContainer } from "./dashboard.components";
+import Navbar from "../../components/Navbar";
+import { DashboardContainer, DashboardContent } from "./dashboard.components";
 
 const Dashbord = () => {
   return (
     <DashboardContainer>
-      <Outlet />
+      <DashboardContent>
+        <Navbar />
+        <Outlet />
+      </DashboardContent>
     </DashboardContainer>
   );
 };
