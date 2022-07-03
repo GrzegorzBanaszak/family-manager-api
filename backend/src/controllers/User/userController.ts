@@ -218,7 +218,7 @@ const loginUser = asyncHandeler(async (req: Request, res: Response) => {
         role: RoleEnum.admin,
       };
 
-      res.cookie("token", generateToken(user._id.toString()));
+      res.cookie("token", generateToken(user._id.toString()), cookisConfig);
       res.status(200).json(userDto);
     }
 
@@ -242,7 +242,7 @@ const loginUser = asyncHandeler(async (req: Request, res: Response) => {
 });
 
 const logout = asyncHandeler(async (req: Request, res: Response) => {
-  res.clearCookie("token");
+  res.clearCookie("token", cookisConfig);
   res.status(200).json({ message: "Wylogowano" });
 });
 

@@ -4,5 +4,5 @@ export const cookisConfig: CookieOptions = {
   maxAge: 1000 * 60 * 60 * 24 * 7,
   // secure: true,
   // httpOnly: true,
-  sameSite: "none",
+  sameSite: "lax",
 };

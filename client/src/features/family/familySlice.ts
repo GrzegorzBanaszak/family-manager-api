@@ -24,6 +24,18 @@ export const getFamily = createAsyncThunk(
     }
   }
 );
+export const getFamiles = createAsyncThunk(
+  "family/getFamiles",
+  async (_, thunkAPI) => {
+    try {
+      return await familyServices.getFamiles();
+    } catch (error: any) {
+      const message =
+        error.response.data.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
 export const addTransaction = createAsyncThunk(
   "family/addTransaction",
@@ -63,6 +75,20 @@ export const familySlice = createSlice({
         state.family = action.payload;
       })
       .addCase(getFamily.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload as string;
+      })
+      .addCase(getFamiles.pending, (state) => {
+        state.isLoading = true;
+        state.transactionSuccess = false;
+      })
+      .addCase(getFamiles.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.families = action.payload;
+      })
+      .addCase(getFamiles.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload as string;

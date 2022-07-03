@@ -6,10 +6,15 @@ const getFamily = async () => {
   return family.data;
 };
 
+const getFamiles = async () => {
+  const family = await axios.get(FAMILY_URL + "all");
+  return family.data;
+};
+
 const addTransaction = async (data: TransactionData) => {
   const res = await axios.post(TRANSACTION_URL, data);
   return res.data;
 };
 
-const familyServices = { getFamily, addTransaction };
+const familyServices = { getFamily, addTransaction, getFamiles };
 export default familyServices;
