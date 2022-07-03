@@ -4,10 +4,10 @@ import Family from "../../models/familyModel";
 import { Request, Response } from "express";
 import { TransactionTypesEnum, RoleEnum } from "../../enums";
 const addTransaction = asyncHandler(async (req: Request, res: Response) => {
-  const { amount } = req.body;
+  const { amount, name } = req.body;
   const { firstName, lastName, memberOfFamily } = req.user;
 
-  if (!amount) {
+  if (!amount || !name) {
     res.status(400);
     throw new Error("Nie wszystkie pola zostaly wypelnione");
   }
@@ -21,6 +21,7 @@ const addTransaction = asyncHandler(async (req: Request, res: Response) => {
 
   const transaction = await Transaction.create({
     user: `${firstName} ${lastName}`,
+    name,
     amount,
     transactionType: TransactionTypesEnum.MINUS,
   });
