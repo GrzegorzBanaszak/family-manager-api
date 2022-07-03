@@ -11,27 +11,24 @@ export const NavbarContainer = styled.nav`
 
 export const NavbarElementRight = styled.div`
   display: flex;
-  align-items: center;
-  cursor: pointer;
   border: 1px solid white;
   border-radius: 0.5rem;
-  padding: 0.5rem;
 `;
 
 export const NavbarElementLeft = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
+  font-size: 1.3rem;
 `;
 
-export const NavbarMoney = styled.div`
+export const NavbarUser = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  border: 1px solid white;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
+  padding: 0 0.5rem;
+  cursor: pointer;
 `;
+
 export const NavbarLogout = styled.div`
   cursor: pointer;
   display: flex;
@@ -39,7 +36,7 @@ export const NavbarLogout = styled.div`
   justify-content: center;
   color: #1a237e;
   background-color: white;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
+  margin-left: 1rem;
+  padding: 0.5rem;
+  border-radius: 0 0.3rem 0.3rem 0;
 `;

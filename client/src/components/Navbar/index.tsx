@@ -2,31 +2,31 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import {
   NavbarContainer,
   NavbarElementRight,
-  NavbarMoney,
   NavbarElementLeft,
   NavbarLogout,
+  NavbarUser,
 } from "./navbar.components";
 import { AiOutlineUser } from "react-icons/ai";
-import { TbReportMoney } from "react-icons/tb";
 import { BiLogOut } from "react-icons/bi";
 import { logout } from "../../features/auth/authSlice";
+import { SiHomeassistant } from "react-icons/si";
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
 
   return (
     <NavbarContainer>
-      <NavbarElementRight>
-        <AiOutlineUser fontSize={24} /> {user?.firstName} {user?.lastName}
-      </NavbarElementRight>
       <NavbarElementLeft>
-        <NavbarMoney>
-          <TbReportMoney fontSize={24} /> 1000 zł
-        </NavbarMoney>
+        <SiHomeassistant fontSize={30} /> Fundusze rodzinne
+      </NavbarElementLeft>
+      <NavbarElementRight>
+        <NavbarUser>
+          <AiOutlineUser fontSize={24} /> {user?.firstName} {user?.lastName}
+        </NavbarUser>
         <NavbarLogout onClick={() => dispatch(logout())}>
           <BiLogOut fontSize={24} />
         </NavbarLogout>
-      </NavbarElementLeft>
+      </NavbarElementRight>
     </NavbarContainer>
   );
 };
