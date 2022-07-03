@@ -17,9 +17,7 @@ import { useNavigate } from "react-router-dom";
 const Login = () => {
   const dispatch = useAppDispatch();
   const nav = useNavigate();
-  const { isError, isSuccess, isLoading, message } = useAppSelector(
-    (state) => state.auth
-  );
+  const { isError, isSuccess, message } = useAppSelector((state) => state.auth);
   const [formData, setFormData] = useState<LoginData>({
     email: "",
     password: "",
@@ -40,10 +38,6 @@ const Login = () => {
     e.preventDefault();
     dispatch(login(formData));
   };
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <LoginContainer>

@@ -7,7 +7,8 @@ import Family from "../../models/familyModel";
 const getFamily = asyncHandelr(async (req, res) => {
   const family = await Family.findById(req.user.memberOfFamily)
     .populate("familyMembers", "_id firstName lastName email")
-    .populate("transactions", "_id user amount transactionType");
+    .populate("transactions", "_id user amount transactionType")
+    .select("-createdAt -updatedAt -__v");
 
   if (!family) {
     res.status(400);
