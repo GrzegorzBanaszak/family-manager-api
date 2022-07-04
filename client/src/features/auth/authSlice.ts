@@ -1,5 +1,10 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { AuthState, LoginData, RegisterData } from "../../types";
+import {
+  AuthState,
+  LoginData,
+  RegisterAdminData,
+  RegisterData,
+} from "../../types";
 import authServices from "./authServices";
 
 const initialState: AuthState = {
@@ -43,6 +48,19 @@ export const register = createAsyncThunk(
   async (data: RegisterData, thunkAPI) => {
     try {
       return await authServices.register(data);
+    } catch (error: any) {
+      const message =
+        error.response.data.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+export const registerAdmin = createAsyncThunk(
+  "auth/registerAdmin",
+  async (data: RegisterAdminData, thunkAPI) => {
+    try {
+      return await authServices.registerAdmin(data);
     } catch (error: any) {
       const message =
         error.response.data.message || error.message || error.toString();
@@ -111,6 +129,19 @@ export const authSlice = createSlice({
         state.user = action.payload;
       })
       .addCase(register.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload as string;
+      })
+      .addCase(registerAdmin.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(registerAdmin.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.user = action.payload;
+      })
+      .addCase(registerAdmin.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload as string;

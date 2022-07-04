@@ -12,3 +12,4 @@ export * from "./DashboardState";
 export * from "./TransactionDto";
 export * from "./AddMoneyDate";
 export * from "./TransactionMoneyDto";
+export * from "./RegisterAdminData";

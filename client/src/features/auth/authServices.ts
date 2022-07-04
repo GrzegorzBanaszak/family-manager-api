@@ -1,6 +1,6 @@
 import axios from "../../axiosConfig";
 import qs from "qs";
-import { LoginData, RegisterData } from "../../types";
+import { LoginData, RegisterAdminData, RegisterData } from "../../types";
 
 const HTTPS_URL: string = "http://localhost:5000/api/user/";
 
@@ -15,6 +15,18 @@ const login = async (data: LoginData) => {
   });
   // const res = await axios.post(HTTPS_URL + "login", data);
 
+  return res.data;
+};
+
+const registerAdmin = async (data: RegisterAdminData) => {
+  const res = await axios({
+    method: "post",
+    url: HTTPS_URL + "admin",
+    data: qs.stringify(data),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
   return res.data;
 };
 
@@ -49,5 +61,12 @@ const familyCheck = async (verificationKey: string) => {
 
   return res.data;
 };
-const authServices = { login, familyCheck, register, getUser, logout };
+const authServices = {
+  login,
+  familyCheck,
+  register,
+  getUser,
+  logout,
+  registerAdmin,
+};
 export default authServices;

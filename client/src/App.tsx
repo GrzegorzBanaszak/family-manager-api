@@ -12,6 +12,7 @@ import { getUser } from "./features/auth/authSlice";
 import { useEffect } from "react";
 import DashboardUser from "./components/Dashboards/DashboardUser";
 import DashboardAdmin from "./components/Dashboards/DashboardAdmin";
+import RegisterAdmin from "./pages/RegisterAdmin";
 
 function App() {
   const { user } = useAppSelector((state) => state.auth);
@@ -65,6 +66,20 @@ function App() {
                 )
               ) : (
                 <Register />
+              )
+            }
+          />
+          <Route
+            path="register/admin"
+            element={
+              user ? (
+                user.role === "user" ? (
+                  <Navigate to="/dashboard" />
+                ) : (
+                  <Navigate to="/dashboard/admin" />
+                )
+              ) : (
+                <RegisterAdmin />
               )
             }
           />

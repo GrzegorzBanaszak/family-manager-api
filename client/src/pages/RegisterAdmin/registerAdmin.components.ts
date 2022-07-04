@@ -63,6 +63,7 @@ export const RegisterForm = styled.form`
 export const RegisterFormGroupe = styled.div`
   display: flex;
   flex-direction: column;
+
   input {
     flex-grow: 1;
   }
