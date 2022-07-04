@@ -2,8 +2,8 @@
 
 Aplikacja do zarządzania funduszami rodzinnymi składająca się z dwóch części:
 
-- Backendu
-- Frontendu
+- Backendu (NodeJs)
+- Frontendu (React)
 
 ## Backend
 
@@ -16,14 +16,21 @@ Aby aplikacja działala należy umieścić plik .env w katalogu głównym aplika
 ```
 MONGO_URI = Url dla mongoDb
 JWT_SECRET= Sekretny klucz do szyfrowania tokenów
+REACT_APP_URL = Url do aplikacji React || Domyślny url: http://localhost:3000
 ```
 
+Dodatkowa konfiguracja:
+
+```
+PORT_HTTP = Port do serwera HTTP || Domyślny port: 5000
+PORT_HTTPS = Port do serwera HTTPS || Domyślny port: 8000
+```
 
 #### Requsty
 
-![Register](https://img.shields.io/static/v1?style=for-the-badge&label=Register&message=Post&color=yellow)
+![RegisterUser](https://img.shields.io/static/v1?style=for-the-badge&label=Register%20user&message=Post&color=yellow)
 
-**`http://localhost:5000/api/user/register`**
+**Public | `http://localhost:5000/api/user/register`**
 
 ```
 {
@@ -31,16 +38,55 @@ JWT_SECRET= Sekretny klucz do szyfrowania tokenów
   "lastName": String,
   "email": String,
   "password": String,
-  "role": String ["admin", "user"],
   "hasFamily": Boolean,
   "memberOfFamily": String ? Jezeli posiada rodzine to podaj id rodziny
   "verificationKey": String ? Jezeli posiada rodzine to podaj klucz do weryfikacji
 }
-````
+```
+
+**W odpowiedzi zwracany jest token w forme cookis.**
+Przykładowa odpowiedź:
+
+```
+{
+    "id": "62c32fc06dd75122bbf78088",
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "jan@gmail.com",
+    "role": "user",
+    "memberOfFamily": "62c32fc06dd75122bbf78086"
+}
+```
+
+![RegisterAdmin](https://img.shields.io/static/v1?style=for-the-badge&label=Register%20admin&message=Post&color=yellow)
+
+**Public | `http://localhost:5000/api/user/admin`**
+
+```
+{
+  "firstName": String,
+  "lastName": String,
+  "email": String,
+  "password": String,
+}
+```
+
+**W odpowiedzi zwracany jest token w forme cookis.**
+Przykładowa odpowiedź:
+
+```
+{
+    "id": "62c330546dd75122bbf7808c",
+    "firstName": "Marian",
+    "lastName": "Kowalski",
+    "email": "marian@gmail.com",
+    "role": "admin"
+}
+```
 
 ![Login](https://img.shields.io/static/v1?style=for-the-badge&label=Login&message=Post&color=yellow)
 
-**`http://localhost:5000/api/user/login`**
+**Public |`http://localhost:5000/api/user/login`**
 
 ```
 {
@@ -49,45 +95,214 @@ JWT_SECRET= Sekretny klucz do szyfrowania tokenów
 }
 ```
 
-![GetUser](https://img.shields.io/static/v1?style=for-the-badge&label=Get%20User&message=Get&color=43a047)
+**W odpowiedzi zwracany jest token w forme cookis.**
 
-**`http://localhost:5000/api/user/me`**
+Przykładowa odpowiedź:
 
 ```
-Authorization Bearer Token
+User
+{
+    "id": "62c32fc06dd75122bbf78088",
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "jan@gmail.com",
+    "role": "user",
+    "memberOfFamily": "62c32fc06dd75122bbf78086"
+}
+
+Admin
+{
+    "id": "62c330546dd75122bbf7808c",
+    "firstName": "Marian",
+    "lastName": "Kowalski",
+    "email": "marian@gmail.com",
+    "role": "admin"
+}
+
+```
+
+![Logout](https://img.shields.io/static/v1?style=for-the-badge&label=Logout&message=Get&color=43a047)
+
+**Private |`http://localhost:5000/api/user/logout`**
+
+**Wymaga tokena zapisanego w cookis.**
+
+Przykładowa odpowiedź:
+
+```
+{
+    "message": "Wylogowano"
+}
+
+```
+
+![GetUser](https://img.shields.io/static/v1?style=for-the-badge&label=Get%20User&message=Get&color=43a047)
+
+**Private |`http://localhost:5000/api/user/me`**
+
+**Wymaga tokena zapisanego w cookis.**
+
+Przykładowa odpowiedź:
+
+```
+User
+{
+    "id": "62c32fc06dd75122bbf78088",
+    "firstName": "Jan",
+    "lastName": "Kowalski",
+    "email": "jan@gmail.com",
+    "role": "user",
+    "memberOfFamily": "62c32fc06dd75122bbf78086"
+}
+
+Admin
+{
+    "id": "62c330546dd75122bbf7808c",
+    "firstName": "Marian",
+    "lastName": "Kowalski",
+    "email": "marian@gmail.com",
+    "role": "admin"
+}
+
 ```
 
 ![GetFamily](https://img.shields.io/static/v1?style=for-the-badge&label=Get%20family&message=Get&color=43a047)
 
-**`http://localhost:5000/api/family`**
+**Private | `http://localhost:5000/api/family`**
+
+**Wymaga tokena zapisanego w cookis.**
+
+Przykładowa odpowiedź:
 
 ```
-Authorization Bearer Token
-```
-
-![AddTransaction](https://img.shields.io/static/v1?style=for-the-badge&label=Add%20Transaction&message=Post&color=yellow)
-
-**`http://localhost:5000/api/transaction/`**
-
-```
-Authorization Bearer Token
-
 {
-  "amount": Number
+    "_id": "62c32fc06dd75122bbf78086",
+    "name": "kowalski",
+    "familyMembers": [
+        {
+            "_id": "62c32fc06dd75122bbf78088",
+            "email": "jan@gmail.com",
+            "firstName": "Jan",
+            "lastName": "Kowalski"
+        }
+    ],
+    "cash": 0,
+    "transactions": [],
+    "verificationKey": "6f8450d2-fdb6-4245-9d75-b9f308ce44f2"
 }
 ```
 
-![AddTransaction](https://img.shields.io/static/v1?style=for-the-badge&label=Add%20Transaction&message=Post&color=yellow)
+![GetFamilies](https://img.shields.io/static/v1?style=for-the-badge&label=Get%20families&message=Get&color=43a047)
 
-**`http://localhost:5000/api/transaction/add`**
+**Private admin only | `http://localhost:5000/api/family/all`**
+
+**Wymaga tokena zapisanego w cookis.**
+
+Przykładowa odpowiedź:
 
 ```
-Authorization Bearer Token
-Jedynie dla admina
-Dodaje środki rodzinei do konta rodziny
+[
+    {
+        "_id": "62c32fc06dd75122bbf78086",
+        "name": "kowalski",
+        "familyMembers": [
+            {
+                "_id": "62c32fc06dd75122bbf78088",
+                "email": "jan@gmail.com",
+                "firstName": "Jan",
+                "lastName": "Kowalski"
+            }
+        ],
+        "cash": 0,
+        "transactions": [],
+        "verificationKey": "6f8450d2-fdb6-4245-9d75-b9f308ce44f2",
+        "createdAt": "2022-07-04T18:21:52.351Z",
+    }
+]
+```
+
+![AddTransaction](https://img.shields.io/static/v1?style=for-the-badge&label=Add%20Transaction&message=Post&color=yellow)
+
+**Private | `http://localhost:5000/api/transaction/`**
+
+**Wymaga tokena zapisanego w cookis.**
+
+```
+{
+    "name":string,
+    "amount":number
+}
+```
+
+Przykładowa odpowiedź:
+
+```
+{
+    "transactions": [
+        {
+            "_id": "62c33894629dface63533d2d",
+            "name": "Zakupy",
+            "user": "Jan Kowalski",
+            "amount": 100,
+            "transactionType": "MINUS",
+            "createdAt": "2022-07-04T18:59:32.471Z"
+        }
+    ],
+    "cash": 900
+}
+```
+
+![AddFunds](https://img.shields.io/static/v1?style=for-the-badge&label=Add%20funds&message=Post&color=yellow)
+
+**Private admin only `http://localhost:5000/api/transaction/add`**
+
+**Wymaga tokena zapisanego w cookis.**
+
+```
 
 {
-  "amount": Number,
-  "familyId": String
+    "amount":number,
+    "familyId":string,
+    "name":string
+}
+```
+
+Przykładowa odpowiedź:
+
+```
+{
+    "transactions": [
+        {
+            "_id": "62c33894629dface63533d2d",
+            "name": "Zakupy",
+            "user": "Jan Kowalski",
+            "amount": 100,
+            "transactionType": "MINUS",
+            "createdAt": "2022-07-04T18:59:32.471Z"
+        },
+        {
+            "_id": "62c33960629dface63533d34",
+            "name": "Wypłata",
+            "user": "Marian Kowalski",
+            "amount": 1000,
+            "transactionType": "ADD",
+            "createdAt": "2022-07-04T19:02:56.892Z"
+        }
+    ],
+    "cash": 1900,
+    "id": "62c32fc06dd75122bbf78086"  //Id zaktualizowanej rodziny
+}
+```
+
+![FamilyVerification](https://img.shields.io/static/v1?style=for-the-badge&label=Family%20verification&message=Get&color=43a047)
+
+**Publicy | `http://localhost:5000/api/family/:family_verification_key`**
+
+Przykładowa odpowiedź:
+
+```
+{
+    "id": "62c32fc06dd75122bbf78086",
+    "name": "kowalski"
 }
 ```
