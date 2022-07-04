@@ -1,5 +1,12 @@
 import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
-import { FamilyState, TransactionData, TransactionDto } from "../../types";
+import {
+  AddMoneyDate,
+  Family,
+  FamilyState,
+  TransactionData,
+  TransactionDto,
+  TransactionMoneyDto,
+} from "../../types";
 import familyServices from "./familyServices";
 const initialState: FamilyState = {
   family: null,
@@ -50,6 +57,19 @@ export const addTransaction = createAsyncThunk(
   }
 );
 
+export const addMoney = createAsyncThunk(
+  "family/addMoney",
+  async (data: AddMoneyDate, thunkAPI) => {
+    try {
+      return await familyServices.addMoney(data);
+    } catch (error: any) {
+      const message =
+        error.response.data.message || error.message || error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const familySlice = createSlice({
   name: "family",
   initialState,
@@ -71,6 +91,16 @@ export const familySlice = createSlice({
       state.message = null;
       state.transactionError = false;
       state.transactionSuccess = false;
+    },
+    setFamily: (state, action: PayloadAction<string>) => {
+      const family = state.families?.find((f) => f._id === action.payload);
+
+      if (family) {
+        state.family = family;
+      }
+    },
+    resetFamily: (state) => {
+      state.family = null;
     },
   },
   extraReducers: (builder) => {
@@ -116,9 +146,29 @@ export const familySlice = createSlice({
       .addCase(addTransaction.rejected, (state, action) => {
         state.transactionError = true;
         state.message = action.payload as string;
+      })
+      .addCase(
+        addMoney.fulfilled,
+        (state, action: PayloadAction<TransactionMoneyDto>) => {
+          state.transactionSuccess = true;
+          const familyToUpdate = state.families?.find(
+            (f) => f._id === action.payload.id
+          );
+
+          if (familyToUpdate) {
+            familyToUpdate.cash = action.payload.cash;
+            familyToUpdate.transactions = action.payload.transactions;
+            state.family = familyToUpdate;
+          }
+        }
+      )
+      .addCase(addMoney.rejected, (state, action) => {
+        state.transactionError = true;
+        state.message = action.payload as string;
       });
   },
 });
 
-export const { reset, familyLogoutReset } = familySlice.actions;
+export const { reset, familyLogoutReset, setFamily, resetFamily } =
+  familySlice.actions;
 export default familySlice.reducer;

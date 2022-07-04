@@ -21,4 +21,10 @@ export const ListElement = styled.li`
   display: flex;
   justify-content: space-between;
   font-size: 1.2rem;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  &:hover {
+    background-color: #3f51b5;
+    color: #fff;
+  }
 `;

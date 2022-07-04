@@ -8,4 +8,5 @@ export interface Family {
   cash: number;
   transactions: Transaction[];
   verificationKey: string;
+  createdAt: Date;
 }

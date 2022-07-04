@@ -1,5 +1,5 @@
 import axios, { FAMILY_URL, TRANSACTION_URL } from "../../axiosConfig";
-import { TransactionData } from "../../types";
+import { AddMoneyDate, TransactionData } from "../../types";
 
 const getFamily = async () => {
   const family = await axios.get(FAMILY_URL);
@@ -16,5 +16,10 @@ const addTransaction = async (data: TransactionData) => {
   return res.data;
 };
 
-const familyServices = { getFamily, addTransaction, getFamiles };
+const addMoney = async (data: AddMoneyDate) => {
+  const res = await axios.post(TRANSACTION_URL + "add", data);
+  return res.data;
+};
+
+const familyServices = { getFamily, addTransaction, getFamiles, addMoney };
 export default familyServices;

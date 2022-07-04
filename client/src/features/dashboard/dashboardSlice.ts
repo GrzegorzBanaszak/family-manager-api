@@ -3,7 +3,7 @@ import { DashboardState } from "../../types";
 
 const initialState: DashboardState = {
   dashboardUserLocation: "transactions",
-  dashboardAdminLocation: "",
+  dashboardAdminLocation: "familyList",
 };
 
 const dashboardSlice = createSlice({
@@ -13,7 +13,11 @@ const dashboardSlice = createSlice({
     setDashboardUserLocation: (state, action: PayloadAction<string>) => {
       state.dashboardUserLocation = action.payload;
     },
+    setDashboardAdminLocation: (state, action: PayloadAction<string>) => {
+      state.dashboardAdminLocation = action.payload;
+    },
   },
 });
-export const { setDashboardUserLocation } = dashboardSlice.actions;
+export const { setDashboardUserLocation, setDashboardAdminLocation } =
+  dashboardSlice.actions;
 export default dashboardSlice.reducer;

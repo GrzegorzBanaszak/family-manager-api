@@ -119,6 +119,7 @@ const addAmount = asyncHandler(async (req: Request, res: Response) => {
   res.status(201).json({
     transactions: updatedFamily.transactions,
     cash: updatedFamily.cash,
+    id: updatedFamily._id,
   });
 });
 
