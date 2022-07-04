@@ -1,12 +1,18 @@
 import styled from "styled-components";
+import { devices } from "../../devicesBreakpoints";
 
 export const NavbarContainer = styled.nav`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 1rem;
   align-items: center;
   background-color: #1a237e;
   color: white;
   padding: 1rem;
+  @media ${devices.laptop} {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 export const NavbarElementRight = styled.div`

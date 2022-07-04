@@ -5,6 +5,7 @@ import {
   HeaderAdd,
   HeaderControl,
   HeaderLeft,
+  HeaderMoney,
   HeaderRight,
 } from "./dashboards.components";
 import { getFamily } from "../../features/family/familySlice";
@@ -58,7 +59,7 @@ const DashboardUser = () => {
           </HeaderControl>
         </HeaderLeft>
         <HeaderRight>
-          <p>{family?.cash} zł</p>
+          <HeaderMoney>{family?.cash} zł</HeaderMoney>
           <HeaderAdd
             onClick={() => dispatch(setDashboardUserLocation("addTransaction"))}
           >
