@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { devices } from "../../devicesBreakpoints";
 
 export const Title = styled.h1`
   font-size: 1.5rem;
@@ -10,8 +11,13 @@ export const Title = styled.h1`
 
 export const Navigation = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 0.7rem;
   padding: 0.5rem;
+  @media ${devices.laptop} {
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `;
 
 export const NavigationItem = styled.div`
@@ -50,7 +56,11 @@ export const TransactionForm = styled.form`
 
 export const FormFildes = styled.div`
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  @media ${devices.laptop} {
+    flex-direction: row;
+    gap: 2rem;
+  }
 `;
 
 export const FormGroupe = styled.div`
@@ -83,7 +93,9 @@ export const Button = styled.button`
 export const InfoContainer = styled.div`
   margin-top: 2rem;
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  @media ${devices.laptop} {
+    grid-template-columns: 1fr 1fr;
+  }
 `;
 
 export const InfoUsers = styled.div`

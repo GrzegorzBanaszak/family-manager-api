@@ -14,6 +14,7 @@ import { familyLogoutReset } from "../../features/family/familySlice";
 import {
   setDashboardUserLocation,
   setDashboardAdminLocation,
+  logoutDashboardReset,
 } from "../../features/dashboard/dashboardSlice";
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.auth);
@@ -21,6 +22,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     dispatch(familyLogoutReset());
+    dispatch(logoutDashboardReset());
     dispatch(logout());
   };
 

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { devices } from "../../devicesBreakpoints";
 
 export const Title = styled.h1`
   font-size: 1.5rem;
@@ -18,10 +19,13 @@ export const Transaction = styled.li`
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   padding: 1rem;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
   font-size: 1.2rem;
   margin: 1rem 0;
-  div {
-    text-align: center;
+  @media ${devices.laptop} {
+    grid-template-columns: repeat(4, 1fr);
+    div {
+      text-align: center;
+    }
   }
 `;

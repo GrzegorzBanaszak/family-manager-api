@@ -16,8 +16,15 @@ const dashboardSlice = createSlice({
     setDashboardAdminLocation: (state, action: PayloadAction<string>) => {
       state.dashboardAdminLocation = action.payload;
     },
+    logoutDashboardReset: (state) => {
+      state.dashboardUserLocation = "transactions";
+      state.dashboardAdminLocation = "familyList";
+    },
   },
 });
-export const { setDashboardUserLocation, setDashboardAdminLocation } =
-  dashboardSlice.actions;
+export const {
+  setDashboardUserLocation,
+  setDashboardAdminLocation,
+  logoutDashboardReset,
+} = dashboardSlice.actions;
 export default dashboardSlice.reducer;
