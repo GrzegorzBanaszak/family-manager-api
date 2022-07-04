@@ -118,6 +118,9 @@ export const authSlice = createSlice({
       .addCase(getUser.fulfilled, (state, action) => {
         state.user = action.payload;
       })
+      .addCase(getUser.rejected, () => {
+        console.clear();
+      })
       .addCase(familyCheck.pending, (state) => {
         state.familyVerified = null;
         state.familyVerifiedError = "";

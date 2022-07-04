@@ -10,9 +10,15 @@ import { AiOutlineUser } from "react-icons/ai";
 import { BiLogOut } from "react-icons/bi";
 import { logout } from "../../features/auth/authSlice";
 import { SiHomeassistant } from "react-icons/si";
+import { familyLogoutReset } from "../../features/family/familySlice";
 const Navbar = () => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
+
+  const handleLogout = () => {
+    dispatch(familyLogoutReset());
+    dispatch(logout());
+  };
 
   return (
     <NavbarContainer>
@@ -23,7 +29,7 @@ const Navbar = () => {
         <NavbarUser>
           <AiOutlineUser fontSize={24} /> {user?.firstName} {user?.lastName}
         </NavbarUser>
-        <NavbarLogout onClick={() => dispatch(logout())}>
+        <NavbarLogout onClick={handleLogout}>
           <BiLogOut fontSize={24} />
         </NavbarLogout>
       </NavbarElementRight>

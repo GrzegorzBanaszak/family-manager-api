@@ -62,6 +62,16 @@ export const familySlice = createSlice({
       state.transactionError = false;
       state.transactionSuccess = false;
     },
+    familyLogoutReset: (state) => {
+      state.family = null;
+      state.families = null;
+      state.isError = false;
+      state.isSuccess = false;
+      state.isLoading = false;
+      state.message = null;
+      state.transactionError = false;
+      state.transactionSuccess = false;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -110,5 +120,5 @@ export const familySlice = createSlice({
   },
 });
 
-export const { reset } = familySlice.actions;
+export const { reset, familyLogoutReset } = familySlice.actions;
 export default familySlice.reducer;
