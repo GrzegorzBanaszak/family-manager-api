@@ -35,7 +35,6 @@ app.use(cors({ credentials: true, origin: REACT_APP_URL }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 //Apllying all routes
 app.use("/api/user", userRoutes);
 app.use("/api/family", familyRoutes);

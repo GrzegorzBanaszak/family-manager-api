@@ -1,16 +1,32 @@
 import axios from "../../axiosConfig";
+import qs from "qs";
 import { LoginData, RegisterData } from "../../types";
 
 const HTTPS_URL: string = "http://localhost:5000/api/user/";
 
 const login = async (data: LoginData) => {
-  const res = await axios.post(HTTPS_URL + "login", data);
+  const res = await axios({
+    method: "post",
+    url: HTTPS_URL + "login",
+    data: qs.stringify(data),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
+  // const res = await axios.post(HTTPS_URL + "login", data);
 
   return res.data;
 };
 
 const register = async (data: RegisterData) => {
-  const res = await axios.post(HTTPS_URL + "register", data);
+  const res = await axios({
+    method: "post",
+    url: HTTPS_URL + "register",
+    data: qs.stringify(data),
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+  });
   return res.data;
 };
 
