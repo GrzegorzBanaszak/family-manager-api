@@ -45,6 +45,7 @@ PORT_HTTPS = Port do serwera HTTPS || Domyślny port: 8000
 ```
 
 **W odpowiedzi zwracany jest token w forme cookis.**
+
 Przykładowa odpowiedź:
 
 ```
@@ -72,6 +73,7 @@ Przykładowa odpowiedź:
 ```
 
 **W odpowiedzi zwracany jest token w forme cookis.**
+
 Przykładowa odpowiedź:
 
 ```
