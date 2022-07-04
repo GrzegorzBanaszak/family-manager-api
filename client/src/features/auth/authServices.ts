@@ -1,19 +1,16 @@
-import axios from "../../axiosConfig";
+import axios, { USER_URL, FAMILY_URL } from "../../axiosConfig";
 import qs from "qs";
 import { LoginData, RegisterAdminData, RegisterData } from "../../types";
-
-const HTTPS_URL: string = "http://localhost:5000/api/user/";
 
 const login = async (data: LoginData) => {
   const res = await axios({
     method: "post",
-    url: HTTPS_URL + "login",
+    url: USER_URL + "login",
     data: qs.stringify(data),
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
     },
   });
-  // const res = await axios.post(HTTPS_URL + "login", data);
 
   return res.data;
 };
@@ -21,7 +18,7 @@ const login = async (data: LoginData) => {
 const registerAdmin = async (data: RegisterAdminData) => {
   const res = await axios({
     method: "post",
-    url: HTTPS_URL + "admin",
+    url: USER_URL + "admin",
     data: qs.stringify(data),
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -33,7 +30,7 @@ const registerAdmin = async (data: RegisterAdminData) => {
 const register = async (data: RegisterData) => {
   const res = await axios({
     method: "post",
-    url: HTTPS_URL + "register",
+    url: USER_URL + "register",
     data: qs.stringify(data),
     headers: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -43,21 +40,19 @@ const register = async (data: RegisterData) => {
 };
 
 const getUser = async () => {
-  const res = await axios.get(HTTPS_URL + "me");
+  const res = await axios.get(USER_URL + "me");
 
   return res.data;
 };
 
 const logout = async () => {
-  const res = await axios.get(HTTPS_URL + "logout");
+  const res = await axios.get(USER_URL + "logout");
 
   return res.data;
 };
 
 const familyCheck = async (verificationKey: string) => {
-  const res = await axios.get(
-    "http://localhost:5000/api/family/verification/" + verificationKey
-  );
+  const res = await axios.get(FAMILY_URL + "verification/" + verificationKey);
 
   return res.data;
 };

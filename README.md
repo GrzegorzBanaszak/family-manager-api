@@ -315,6 +315,14 @@ Przykładowa odpowiedź:
 
 ![React](https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=white) ![MongoDb](https://img.shields.io/badge/redux-764ABC?style=for-the-badge&logo=redux&logoColor=white) ![Typescript](https://img.shields.io/badge/Typescript-3178C6?style=for-the-badge&logo=Typescript&logoColor=white) ![Express](https://img.shields.io/badge/react%20router-CA4245?style=for-the-badge&logo=react%20router&logoColor=white) ![Json%20web%20token](https://img.shields.io/badge/styled%20components-DB7093?style=for-the-badge&logo=styledcomponents&logoColor=white)
 
+---
+
+## Informacje do konfiguracji
+
+**Jeżeli zmieniłeś domyślne ustawienia portu http servera należy zmienić scieżki w pliku axiosConfig.js**
+
+---
+
 #### Aplikacja frondendowa zawiera następujące funkcjonalności:
 
 - Strone główną

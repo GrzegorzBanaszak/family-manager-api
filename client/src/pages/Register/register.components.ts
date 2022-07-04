@@ -104,6 +104,7 @@ export const RegisterFamilyBtn = styled.div`
   color: white;
   padding: 0.5rem;
   border-radius: 10px;
+  cursor: pointer;
 `;
 
 export const RegisterLink = styled(Link)`
