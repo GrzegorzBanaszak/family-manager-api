@@ -17,8 +17,11 @@ export const Transaction = styled.li`
   box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
     rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
   padding: 1rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
   font-size: 1.2rem;
   margin: 1rem 0;
+  div {
+    text-align: center;
+  }
 `;

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import FamilyInfo from "../FamilyInfo";
 import FamilyList from "../FamilyList";
 import { getFamiles } from "../../features/family/familySlice";
+import UserInfo from "../UserInfo";
 const DashboardAdmin = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { families } = useAppSelector((state) => state.family);
@@ -20,6 +21,8 @@ const DashboardAdmin = () => {
         return <FamilyList />;
       case "familyInfo":
         return <FamilyInfo />;
+      case "userInfo":
+        return <UserInfo />;
       default:
         return <FamilyList />;
     }

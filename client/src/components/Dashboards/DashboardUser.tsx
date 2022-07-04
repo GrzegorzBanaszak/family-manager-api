@@ -13,6 +13,7 @@ import { setDashboardUserLocation } from "../../features/dashboard/dashboardSlic
 import Transactions from "../Transactions";
 import FamilyMembers from "../FamilyMembers";
 import AddTransaction from "../AddTransaction";
+import UserInfo from "../UserInfo";
 const DashboardUser = () => {
   const { user } = useAppSelector((state) => state.auth);
   const { family } = useAppSelector((state) => state.family);
@@ -33,6 +34,8 @@ const DashboardUser = () => {
         return <FamilyMembers />;
       case "addTransaction":
         return <AddTransaction />;
+      case "userInfo":
+        return <UserInfo />;
       default:
         return <Transactions />;
     }
