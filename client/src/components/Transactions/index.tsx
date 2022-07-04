@@ -26,7 +26,7 @@ const Transactions = () => {
                 <div>{getData(createdAt)}</div>
                 <div>{user}</div>
                 <div>
-                  {transactionType === "minus" ? "- " + amount : amount} zł
+                  {transactionType === "MINUS" ? "- " + amount : amount} zł
                 </div>
               </Transaction>
             )

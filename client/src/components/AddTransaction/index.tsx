@@ -7,15 +7,12 @@ import {
   TransactionError,
   TransactionForm,
 } from "./addTransaction.components";
-import {
-  addTransaction,
-  getFamily,
-  reset,
-} from "../../features/family/familySlice";
+import { addTransaction, reset } from "../../features/family/familySlice";
 import { setDashboardUserLocation } from "../../features/dashboard/dashboardSlice";
 const AddTransaction = () => {
-  const { transactionError, transactionSuccess, message, isSuccess, family } =
-    useAppSelector((state) => state.family);
+  const { transactionError, transactionSuccess, message } = useAppSelector(
+    (state) => state.family
+  );
   const dispatch = useAppDispatch();
   const [formData, setFormData] = useState<TransactionData>({
     name: "",
@@ -23,14 +20,11 @@ const AddTransaction = () => {
   });
 
   useEffect(() => {
-    if (isSuccess) {
-      dispatch(setDashboardUserLocation("transactions"));
-      dispatch(reset());
-    }
     if (transactionSuccess) {
-      dispatch(getFamily());
+      dispatch(reset());
+      dispatch(setDashboardUserLocation("transactions"));
     }
-  }, [transactionSuccess, family, isSuccess]);
+  }, [transactionSuccess]);
 
   const handleChangeOnlyNumber = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.match(/^[0-9]*$/)) {

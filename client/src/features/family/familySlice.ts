@@ -1,5 +1,5 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { FamilyState, TransactionData } from "../../types";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import { FamilyState, TransactionData, TransactionDto } from "../../types";
 import familyServices from "./familyServices";
 const initialState: FamilyState = {
   family: null,
@@ -93,9 +93,16 @@ export const familySlice = createSlice({
         state.isError = true;
         state.message = action.payload as string;
       })
-      .addCase(addTransaction.fulfilled, (state) => {
-        state.transactionSuccess = true;
-      })
+      .addCase(
+        addTransaction.fulfilled,
+        (state, action: PayloadAction<TransactionDto>) => {
+          state.transactionSuccess = true;
+          if (state.family) {
+            state.family.cash = action.payload.cash;
+            state.family.transactions = action.payload.transactions;
+          }
+        }
+      )
       .addCase(addTransaction.rejected, (state, action) => {
         state.transactionError = true;
         state.message = action.payload as string;

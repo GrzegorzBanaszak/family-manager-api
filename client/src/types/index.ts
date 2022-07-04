@@ -9,3 +9,4 @@ export * from "./FamilyMember";
 export * from "./Transaction";
 export * from "./TransactionData";
 export * from "./DashboardState";
+export * from "./TransactionDto";

@@ -29,7 +29,7 @@ const getAllFamilies = asyncHandelr(async (req, res) => {
 
   const families = await Family.find({})
     .populate("familyMembers", "_id firstName lastName email")
-    .populate("transactions", "_id user amount transactionType");
+    .populate("transactions", "_id user name amount transactionType");
 
   if (!families) {
     res.status(400);
