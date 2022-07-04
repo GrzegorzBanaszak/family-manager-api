@@ -41,21 +41,15 @@ const Register = () => {
   const nav = useNavigate();
   const dispatch = useAppDispatch();
 
-  const {
-    user,
-    familyVerified,
-    familyVerifiedError,
-    isError,
-    isSuccess,
-    message,
-  } = useAppSelector((state) => state.auth);
+  const { familyVerified, familyVerifiedError, isError, isSuccess, message } =
+    useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
-      nav("/");
+      nav("/dashboard");
     }
-  }, [user]);
+  }, [isSuccess]);
 
   const onChande = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));

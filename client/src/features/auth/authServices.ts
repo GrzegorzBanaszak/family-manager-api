@@ -3,39 +3,18 @@ import qs from "qs";
 import { LoginData, RegisterAdminData, RegisterData } from "../../types";
 
 const login = async (data: LoginData) => {
-  const res = await axios({
-    method: "post",
-    url: USER_URL + "login",
-    data: qs.stringify(data),
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
+  const res = await axios.post(USER_URL + "login", data);
 
   return res.data;
 };
 
 const registerAdmin = async (data: RegisterAdminData) => {
-  const res = await axios({
-    method: "post",
-    url: USER_URL + "admin",
-    data: qs.stringify(data),
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
+  const res = await axios.post(USER_URL + "admin", data);
   return res.data;
 };
 
 const register = async (data: RegisterData) => {
-  const res = await axios({
-    method: "post",
-    url: USER_URL + "register",
-    data: qs.stringify(data),
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-  });
+  const res = await axios.post(USER_URL + "register", data);
   return res.data;
 };
 

@@ -29,3 +29,9 @@ export const Transaction = styled.li`
     }
   }
 `;
+
+export const TransactionInfo = styled.div`
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 1.6rem;
+`;

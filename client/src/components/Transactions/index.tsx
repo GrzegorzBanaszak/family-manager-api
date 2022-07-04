@@ -4,6 +4,7 @@ import "moment/locale/pl";
 import {
   Title,
   Transaction,
+  TransactionInfo,
   TransactionsList,
 } from "./transactions.components";
 
@@ -33,7 +34,7 @@ const Transactions = () => {
           )}
         </TransactionsList>
       ) : (
-        <div>Brak Ttransakcji</div>
+        <TransactionInfo>Brak transakcji</TransactionInfo>
       )}
     </>
   );

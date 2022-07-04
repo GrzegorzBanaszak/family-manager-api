@@ -29,59 +29,19 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route
             index
-            element={
-              user ? (
-                user.role === "user" ? (
-                  <Navigate to="/dashboard" />
-                ) : (
-                  <Navigate to="/dashboard/admin" />
-                )
-              ) : (
-                <Home />
-              )
-            }
+            element={user ? <Navigate to="/dashboard" /> : <Home />}
           />
           <Route
             path="login"
-            element={
-              user ? (
-                user.role === "user" ? (
-                  <Navigate to="/dashboard" />
-                ) : (
-                  <Navigate to="/dashboard/admin" />
-                )
-              ) : (
-                <Login />
-              )
-            }
+            element={user ? <Navigate to="/" /> : <Login />}
           />
           <Route
             path="register"
-            element={
-              user ? (
-                user.role === "user" ? (
-                  <Navigate to="/dashboard" />
-                ) : (
-                  <Navigate to="/dashboard/admin" />
-                )
-              ) : (
-                <Register />
-              )
-            }
+            element={user ? <Navigate to="/" /> : <Register />}
           />
           <Route
             path="register/admin"
-            element={
-              user ? (
-                user.role === "user" ? (
-                  <Navigate to="/dashboard" />
-                ) : (
-                  <Navigate to="/dashboard/admin" />
-                )
-              ) : (
-                <RegisterAdmin />
-              )
-            }
+            element={user ? <Navigate to="/" /> : <RegisterAdmin />}
           />
           <Route
             path="dashboard"

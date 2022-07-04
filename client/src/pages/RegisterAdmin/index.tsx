@@ -30,17 +30,16 @@ const defaultState: RegisterAdminData = {
 
 const RegisterAdmin = () => {
   const [formData, setFormData] = useState<RegisterAdminData>(defaultState);
-  const { user, isError, isSuccess, message } = useAppSelector(
-    (state) => state.auth
-  );
+  const { isError, isSuccess, message } = useAppSelector((state) => state.auth);
   const nav = useNavigate();
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (isSuccess) {
       dispatch(reset());
-      nav("/");
+      nav("/dashboard/admin");
     }
-  }, [user]);
+  }, [isSuccess]);
 
   const onChande = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
