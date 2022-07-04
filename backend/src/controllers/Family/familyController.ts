@@ -28,6 +28,7 @@ const getAllFamilies = asyncHandelr(async (req, res) => {
   }
 
   const families = await Family.find({})
+    .select("-updatedAt -__v")
     .populate("familyMembers", "_id firstName lastName email")
     .populate("transactions", "_id user name amount transactionType");
 

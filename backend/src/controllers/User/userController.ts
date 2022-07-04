@@ -242,7 +242,8 @@ const loginUser = asyncHandeler(async (req: Request, res: Response) => {
 });
 
 const logout = asyncHandeler(async (req: Request, res: Response) => {
-  res.clearCookie("token", cookisConfig);
+  res.cookie("token", { maxAge: 0 });
+  res.clearCookie("token");
   res.status(200).json({ message: "Wylogowano" });
 });
 

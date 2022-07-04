@@ -1,4 +1,3 @@
-import { Request, Response } from "express";
 import express from "express";
 import dotenv from "dotenv";
 import http from "http";
@@ -9,7 +8,7 @@ import connentDb from "./config/db";
 import errorHandler from "./middleware/errorMiddleware";
 import cookieParser from "cookie-parser";
 
-//Import routes
+//Zaimportowanie sciezek
 import userRoutes from "./routes/userRoutes";
 import familyRoutes from "./routes/familyRoutes";
 import transactionRoutes from "./routes/transactionRoutes";
@@ -19,7 +18,8 @@ dotenv.config();
 const PORT_HTTP = process.env.PORT_HTTP || 5000;
 const PORT_HTTPS = process.env.PORT_HTTPS || 8000;
 const REACT_APP_URL = process.env.REACT_APP_URL || "http://localhost:3000";
-//Start db connection
+
+//Utworzenie połączenia z baza danych
 connentDb();
 
 const options = {
@@ -28,20 +28,23 @@ const options = {
 };
 
 const app = express();
-//Create http and https servers
+
+//Utworzenie serwera http i https
 const httpServer = http.createServer(app);
 const httpsServer = https.createServer(options, app);
+
 app.use(cors({ credentials: true, origin: REACT_APP_URL }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-//Apllying all routes
+
+//Zaaplikowanie scieżek
 app.use("/api/user", userRoutes);
 app.use("/api/family", familyRoutes);
 app.use("/api/transaction", transactionRoutes);
 app.use(errorHandler);
 
-//Statrt http servers
+//Wystartowanie serwerów
 httpServer.listen(PORT_HTTP, () => {
   console.log(`HTTP Server is running on port ${PORT_HTTP}`);
 });
