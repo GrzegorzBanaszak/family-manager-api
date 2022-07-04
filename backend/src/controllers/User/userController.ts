@@ -275,7 +275,7 @@ const getUser = asyncHandeler(async (req: Request, res: Response) => {
 //Generowanie tokena
 const generateToken = (id: string) => {
   return jwt.sign({ id }, process.env.JWT_SECRET!, {
-    expiresIn: "1h",
+    expiresIn: "24h",
   });
 };
 
