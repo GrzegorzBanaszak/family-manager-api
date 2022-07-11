@@ -5,6 +5,8 @@ Aplikacja do zarządzania funduszami rodzinnymi składająca się z dwóch czę�
 - Backendu (NodeJs)
 - Frontendu (React)
 
+#### :rocket: [Link](https://grzegorzbanaszak.github.io/family-manager-api/)
+
 ## Backend
 
 **Użyte technologie:**
@@ -16,14 +18,12 @@ Aby aplikacja działala należy umieścić plik .env w katalogu głównym aplika
 ```
 MONGO_URI = Url dla mongoDb
 JWT_SECRET= Sekretny klucz do szyfrowania tokenów
-REACT_APP_URL = Url do aplikacji React || Domyślny url: http://localhost:3000
 ```
 
 Dodatkowa konfiguracja:
 
 ```
-PORT_HTTP = Port do serwera HTTP || Domyślny port: 5000
-PORT_HTTPS = Port do serwera HTTPS || Domyślny port: 8000
+PORT = Port do serwera HTTP || Domyślny port: 5000
 ```
 
 #### Requsty
