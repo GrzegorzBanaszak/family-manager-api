@@ -5,7 +5,7 @@ import { devices } from "../../devicesBreakpoints";
 export const HomeContainer = styled.section`
   width: 100%;
   height: 100vh;
-  background-image: url("/home-bg.jpg");
+  background-image: url("./home-bg.jpg");
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
