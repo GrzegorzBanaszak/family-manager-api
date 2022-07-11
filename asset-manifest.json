@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/family-manager-api/static/css/main.2231fd3b.css",
-    "main.js": "/family-manager-api/static/js/main.62dd33cf.js",
+    "main.js": "/family-manager-api/static/js/main.ce658ec3.js",
     "index.html": "/family-manager-api/index.html",
     "main.2231fd3b.css.map": "/family-manager-api/static/css/main.2231fd3b.css.map",
-    "main.62dd33cf.js.map": "/family-manager-api/static/js/main.62dd33cf.js.map"
+    "main.ce658ec3.js.map": "/family-manager-api/static/js/main.ce658ec3.js.map"
   },
   "entrypoints": [
     "static/css/main.2231fd3b.css",
-    "static/js/main.62dd33cf.js"
+    "static/js/main.ce658ec3.js"
   ]
 }
