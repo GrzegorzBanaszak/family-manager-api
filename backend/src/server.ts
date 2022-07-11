@@ -14,7 +14,6 @@ import transactionRoutes from "./routes/transactionRoutes";
 dotenv.config();
 
 const PORT = process.env.PORT || 5000;
-const REACT_APP_URL = process.env.REACT_APP_URL || "http://localhost:3000";
 
 //Utworzenie połączenia z baza danych
 connentDb();
@@ -24,7 +23,12 @@ const app = express();
 //Utworzenie serwera http i https
 const httpServer = http.createServer(app);
 
-app.use(cors({ credentials: true, origin: REACT_APP_URL }));
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:3000",
+  })
+);
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
